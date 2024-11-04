@@ -43,16 +43,13 @@ function App() {
           {/* Header */}
           <div className="header">
             <div className="header-left">
-              <img src={logo} alt="Logo" className="header-logo" />
-              <span className="header-title">맛남의 장</span>
-            </div>
-            {/* <div className="header-right">
-              <button className="login-button">로그인</button>
-              <Link to="/login" className="login-button">
-                로그인
+              <Link to="/" className="flex items-center">
+                {" "}
+                {/* Link로 감싸서 클릭 시 홈으로 이동 */}
+                <img src={logo} alt="Logo" className="header-logo" />
+                <span className="header-title">맛남의 장</span>
               </Link>
-              <button className="material-symbols-outlined">menu</button>
-            </div> */}
+            </div>
             <div className="header-right">
               {loggedInEmail ? (
                 <>
