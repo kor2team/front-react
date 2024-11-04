@@ -7,7 +7,7 @@ const RecipeList = () => {
 
   useEffect(() => {
     const url =
-      "https://openapi.foodsafetykorea.go.kr/api/API/COOKRCP01/json/1/10";
+      "https://openapi.foodsafetykorea.go.kr/api/5a4532257f514de99381/COOKRCP01/json/1/10";
 
     fetch(url)
       .then((response) => {
@@ -17,7 +17,6 @@ const RecipeList = () => {
         return response.json(); // JSON 데이터로 변환
       })
       .then((recipeData) => {
-        console.log(recipeData);
         const reg = /([가-힣]{1,10}[ ][가-힣]{1,10}|[가-힣]{1,10})/g;
         const rcp = recipeData.COOKRCP01.row.map((obj, key) => {
           const hashtag = obj.RCP_PARTS_DTLS.replace(/\[[^\]]*\]/g, "")
@@ -107,12 +106,50 @@ const RecipeList = () => {
       <h1>Recipe List</h1>
       <ul>
         {recipes.map((recipe) => (
-          <li key={recipe.id}>
+          <li key={recipe.id} style={{ marginBottom: "20px" }}>
             <h2>{recipe.name}</h2>
-            <img src={recipe.mainImg} alt={recipe.name} />
-            <p>{recipe.cook}</p>
-            <p>{recipe.hashtag.join(", ")}</p>
-            {/* 나머지 필요한 정보들도 여기에 표시 */}
+            <img
+              src={recipe.mainImg}
+              alt={recipe.name}
+              style={{ width: "100px", height: "100px" }}
+            />
+
+            {/* 조리법 박스 */}
+            <div
+              style={{
+                border: "1px solid #ccc",
+                padding: "10px",
+                margin: "10px 0",
+              }}
+            >
+              <h3>조리법: {recipe.cook}</h3>
+            </div>
+
+            {/* 재료 박스 */}
+            <div
+              style={{
+                border: "1px solid #ccc",
+                padding: "10px",
+                margin: "10px 0",
+              }}
+            >
+              <h3>재료</h3>
+              <p>{recipe.item}</p>
+            </div>
+
+            {/* 레시피 박스 */}
+            <div
+              style={{
+                border: "1px solid #ccc",
+                padding: "10px",
+                margin: "10px 0",
+              }}
+            >
+              <h3>레시피</h3>
+              {recipe.make.map((step, index) => (
+                <p key={index}>{step}</p> // 각 조리법을 개별적으로 출력
+              ))}
+            </div>
           </li>
         ))}
       </ul>
