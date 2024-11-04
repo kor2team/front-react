@@ -26,7 +26,9 @@ function PostModal() {
   if (!isModalOpen || !selectedPost) return null;
 
   return (
-    <div className="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center">
+    <div className="fixed inset-0 bg-white flex items-center justify-center">
+      {" "}
+      {/* 배경을 완전한 흰색으로 설정 */}
       <div className="bg-white p-6 rounded shadow-lg relative max-w-4xl w-full flex flex-col">
         <button
           onClick={closeModal}
