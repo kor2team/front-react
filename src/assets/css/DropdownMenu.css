@@ -1,0 +1,21 @@
+.dropdown-menu {
+  position: absolute;
+  top: 50px; /* Adjust based on your header height */
+  right: 20px; /* Adjust positioning */
+  background-color: white; /* Background color of dropdown */
+  border: 1px solid #ccc; /* Border around the dropdown */
+  border-radius: 5px; /* Rounded corners */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+  z-index: 1000; /* Ensure it appears above other elements */
+}
+
+.dropdown-item {
+  display: block;
+  padding: 10px 15px; /* Spacing for items */
+  text-decoration: none; /* No underline */
+  color: black; /* Text color */
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0; /* Hover effect */
+}
