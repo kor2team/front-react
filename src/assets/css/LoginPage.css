@@ -27,7 +27,7 @@ input {
 
 button {
   padding: 10px;
-  background-color: #007bff; /* 버튼 배경색 */
+  background-color: rgb(255, 166, 57); /* 버튼 배경색 */
   color: white;
   border: none;
   border-radius: 4px;
