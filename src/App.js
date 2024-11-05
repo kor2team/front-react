@@ -7,11 +7,8 @@ import SearchPage from "./components/SearchPage";
 import logo from "./assets/svg/logo.jpg"; // 로고 이미지 파일 경로
 import LoginPage from "./components/LoginPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Header from "./layout/Header";
 import PostList from "./pages/PostList";
 import PostModal from "./components/PostModal";
-import CreatePostModal from "./components/CreatePostModal";
-import AddPostButton from "./components/AddPostButton";
 
 const queryClient = new QueryClient();
 
@@ -54,9 +51,6 @@ function App() {
             <Route path="/board" element={<PostList />} />
           </Routes>
           <PostModal />
-          <CreatePostModal />
-          <AddPostButton />{" "}
-          {/* 특정 탭에서만 우측 하단에 표시되는 게시물 작성 버튼 */}
         </div>
       </QueryClientProvider>
     </Router>
