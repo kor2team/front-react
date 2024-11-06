@@ -94,7 +94,8 @@ function MainPage() {
               <h3 className="text-lg font-bold text-orange-500">
                 {recipe.title}
               </h3>
-              <p className="text-sm text-gray-500">{recipe.description}</p>
+              <p className="text-sm text-gray-500 line-clamp-2 overflow-hidden">{recipe.description}</p>
+
               <button
                 onClick={() => openModal(recipe)}
                 className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-lg"

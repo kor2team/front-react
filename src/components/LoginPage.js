@@ -112,7 +112,7 @@ function LoginPage({ onLogin }) {
         onClick={() => setIsLogin(!isLogin)}
         className="mt-4 text-sm text-blue-500 hover:underline"
       >
-        {isLogin ? "회원가입 하시겠어요?" : "이미 계정이 있으신가요?"}
+        {isLogin ? "현재 계정이 없으신가요?" : "이미 계정이 있으신가요?"}
       </button>
     </div>
   );
