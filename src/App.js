@@ -10,6 +10,7 @@ import PostModal from "./components/PostModal";
 import useStore from "./store/useStore";
 import CreatePost from "./components/CreatePost";
 import ProfilePage from "./components/ProfilePage"; // 개인정보 페이지 컴포넌트 import
+import Footer from "./layout/Footer";
 
 const queryClient = new QueryClient();
 
@@ -125,6 +126,8 @@ function App() {
           </Routes>
 
           <PostModal />
+          <hr />
+          <Footer />
         </div>
       </QueryClientProvider>
     </Router>
