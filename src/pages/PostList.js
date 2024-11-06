@@ -9,12 +9,8 @@ function PostList({ userId }) {
     setActiveTab, // 활성화할 탭 설정 함수
     filterUserPosts, // 사용자 게시물 필터링 여부
     setFilterUserPosts, // 사용자 게시물 필터링 설정 함수
+    openCreatePost, // 게시물 작성 컴포넌트 열기 함수
   } = useStore();
-
-  const setComponent = useStore((state) => state.setComponent);
-  const handleCreatePost = () => {
-    setComponent("createPost");
-  };
 
   // 무한 스크롤에서 다음 페이지 데이터를 가져오는 함수 (예시 데이터)
   const fetchPosts = async ({ pageParam = 0 }) => {
@@ -132,11 +128,14 @@ function PostList({ userId }) {
 
       {/* 게시물 작성 버튼 */}
       <button
-        onClick={handleCreatePost}
+        onClick={() => openCreatePost(true)}
         className="fixed bottom-4 right-4 bg-orange-500 text-white p-4 rounded-full shadow-lg hover:bg-orange-600"
       >
         게시물 작성
       </button>
+
+      {/* 게시물 작성 페이지 오픈 */}
+      {/* {isCreatePostOpen && } */}
     </>
   );
 }
