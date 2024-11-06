@@ -14,12 +14,12 @@ const ProfilePage = ({ email, onLogout }) => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg mt-8">
+    <div className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg mt-8">
       <h1 className="text-3xl font-bold mb-6 text-center">개인정보</h1>
 
       {/* 이메일 표시 */}
       <div className="mb-4">
-        <p className="text-xl">
+        <p className="text-lg">
           <strong>이메일:</strong> {email}
         </p>
       </div>
