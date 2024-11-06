@@ -8,8 +8,8 @@ const useStore = create((set) => ({
   // 상세보기 모달의 열림 상태를 나타내는 변수
   isModalOpen: false,
 
-  // 게시물 생성 모달의 열림 상태를 나타내는 변수
-  isCreatePostOpen: false,
+  // 게시물 작성 상태창 열림 상태 나타내는 변수
+  currentComponent: "postList", // 상태의 기본값은 postList
 
   // 선택된 게시물의 정보를 저장하는 변수
   selectedPost: null,
@@ -17,6 +17,9 @@ const useStore = create((set) => ({
 
   // activeTab을 변경하는 함수, 전달된 탭 이름으로 상태 업데이트
   setActiveTab: (tab) => set({ activeTab: tab }),
+
+  // 게시물 작성창 상태를 변경기능
+  setComponent: (component) => set({ currentComponent: component }),
 
   // 상세보기 모달을 열고, 선택된 게시물 데이터를 설정하는 함수
   openModal: (post) => set({ isModalOpen: true, selectedPost: post }),
