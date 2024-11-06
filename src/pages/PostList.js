@@ -69,7 +69,7 @@ function PostList({ userId }) {
   return (
     <>
       {/* 탭 선택 버튼 */}
-      <div className="flex justify-center mb-5">
+      <div className="flex flex-col sm:flex-row justify-center mb-5">
         <button
           onClick={() => {
             setFilterUserPosts(false);
@@ -77,7 +77,7 @@ function PostList({ userId }) {
           }}
           className={`px-4 py-2 ${
             !filterUserPosts ? "bg-orange-500 text-white" : "bg-gray-200"
-          } rounded-l border border-card`}
+          } rounded-l sm:rounded-none sm:rounded-l border border-card w-full sm:w-auto`}
         >
           전체글 보기
         </button>
@@ -88,14 +88,14 @@ function PostList({ userId }) {
           }}
           className={`px-4 py-2 ${
             filterUserPosts ? "bg-orange-500 text-white" : "bg-gray-200"
-          } rounded-r border border-card`}
+          } rounded-r sm:rounded-none sm:rounded-r border border-card w-full sm:w-auto`}
         >
           내가 쓴글 보기
         </button>
       </div>
 
       {/* 게시물 목록 */}
-      <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-3.5 overflow-y-auto">
+      <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 overflow-y-auto">
         {data?.pages.map((page) =>
           filteredPosts(page.posts).map((post) => (
             <div
@@ -119,12 +119,12 @@ function PostList({ userId }) {
           <button
             onClick={fetchNextPage}
             disabled={isFetchingNextPage}
-            className="text-white bg-orange-500 px-4 py-2 mt-5 rounded shadow-card"
+            className="text-white bg-orange-500 px-4 py-2 mt-5 rounded shadow-card w-full sm:w-auto"
           >
             {isFetchingNextPage ? (
               "로딩중"
             ) : (
-              <span class="material-symbols-outlined">add</span>
+              <span className="material-symbols-outlined">add</span>
             )}
           </button>
         )}

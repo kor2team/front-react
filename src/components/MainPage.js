@@ -79,11 +79,11 @@ function MainPage() {
   return (
     <div className="p-5 bg-gray-100 min-h-screen">
       {/* 레시피 카드들 */}
-      <div className="flex flex-wrap justify-center gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
         {recipes.map((recipe) => (
           <div
             key={recipe.id}
-            className="w-full md:w-[250px] lg:w-[300px] p-4 bg-white rounded-lg shadow-md border border-gray-200"
+            className="p-4 bg-white rounded-lg shadow-md border border-gray-200"
           >
             <img
               src={recipe.imageUrl}
@@ -94,14 +94,12 @@ function MainPage() {
               <h3 className="text-lg font-bold text-orange-500">
                 {recipe.title}
               </h3>
-              <p className="text-gray-700">{recipe.description}</p>
-            </div>
-            <div className="mt-4">
+              <p className="text-sm text-gray-500">{recipe.description}</p>
               <button
                 onClick={() => openModal(recipe)}
-                className="text-blue-500 hover:underline text-sm"
+                className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-lg"
               >
-                관련 YouTube 보기
+                더 보기
               </button>
             </div>
           </div>

@@ -89,19 +89,21 @@ function CreatePost() {
       </div>
 
       {/* 버튼들 */}
-      <button
-        type="submit"
-        onClick={handlePostList}
-        className="bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-sm mr-2"
-      >
-        저장하기
-      </button>
-      <button
-        onClick={handlePostList}
-        className="bg-orange-600 hover:bg-orange-700 text-white p-4 rounded-full shadow-lg fixed bottom-4 right-4"
-      >
-        돌아가기
-      </button>
+      <div className="flex flex-wrap justify-start gap-2">
+        <button
+          type="submit"
+          onClick={handlePostList}
+          className="bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-sm"
+        >
+          저장하기
+        </button>
+        <button
+          onClick={handlePostList}
+          className="bg-orange-600 hover:bg-orange-700 text-white p-4 rounded-full shadow-lg fixed bottom-4 right-4 md:p-3 md:bottom-6 md:right-6 lg:p-4 lg:bottom-4 lg:right-4"
+        >
+          돌아가기
+        </button>
+      </div>
     </div>
   );
 }
