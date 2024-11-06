@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import "./assets/css/App.css";
-import "./assets/css/Header.css";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import MainPage from "./components/MainPage";
 import SearchPage from "./components/SearchPage";
-import logo from "./assets/svg/logo.jpg"; // 로고 이미지 파일 경로
+import logo from "./assets/svg/logo.jpg";
 import LoginPage from "./components/LoginPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import PostList from "./pages/PostList";
 import PostModal from "./components/PostModal";
+import useStore from "./store/useStore";
+import CreatePost from "./components/CreatePost";
+import ProfilePage from "./components/ProfilePage"; // 개인정보 페이지 컴포넌트 import
 
 const queryClient = new QueryClient();
 
@@ -16,7 +17,6 @@ function App() {
   const [loggedInEmail, setLoggedInEmail] = useState(""); // 로그인한 이메일 상태
 
   useEffect(() => {
-    // 로컬 스토리지에서 이메일을 읽어옴
     const email = localStorage.getItem("loggedInEmail");
     if (email) {
       setLoggedInEmail(email);
@@ -24,59 +24,81 @@ function App() {
   }, []);
 
   const handleLogin = (email) => {
-    setLoggedInEmail(email); // 로그인한 이메일 설정
-    localStorage.setItem("loggedInEmail", email); // 로컬 스토리지에 저장
-    window.location.href = "/"; // 로그인 후 홈으로 리디렉션
+    setLoggedInEmail(email);
+    localStorage.setItem("loggedInEmail", email);
+    window.location.href = "/";
   };
 
   const handleLogout = () => {
-    setLoggedInEmail(""); // 로그인 상태 초기화
-    localStorage.removeItem("loggedInEmail"); // 로컬 스토리지에서 제거
+    setLoggedInEmail("");
+    localStorage.removeItem("loggedInEmail");
   };
+
+  const currentComponent = useStore((state) => state.currentComponent);
 
   return (
     <Router>
       <QueryClientProvider client={queryClient}>
-        <div className="app-container">
+        <div className="max-w-3xl mx-auto p-5">
           {/* Header */}
-          <div className="header">
-            <div className="header-left">
+          <div className="flex justify-between items-center p-5 border-b-2 border-orange-500">
+            <div className="flex items-center">
               <Link to="/" className="flex items-center">
-                {" "}
-                {/* Link로 감싸서 클릭 시 홈으로 이동 */}
-                <img src={logo} alt="Logo" className="header-logo" />
-                <span className="header-title">맛남의 장</span>
+                <img src={logo} alt="Logo" className="max-w-12 h-auto mr-2" />
+                <span className="text-xl font-semibold text-orange-500">
+                  맛남의 장
+                </span>
               </Link>
             </div>
-            <div className="header-right">
+            <div className="flex justify-end">
               {loggedInEmail ? (
                 <>
-                  <span className="nav-item">{loggedInEmail}</span>{" "}
-                  {/* 로그인한 이메일 표시 */}
-                  <button onClick={handleLogout} className="nav-item2">
+                  <Link
+                    to="/profile"
+                    className="mr-4 text-orange-500 hover:text-blue-500"
+                  >
+                    {loggedInEmail}
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="bg-orange-500 text-white py-2 px-4 rounded hover:bg-blue-500"
+                  >
                     로그아웃
-                  </button>{" "}
-                  {/* 로그아웃 버튼 */}
+                  </button>
                 </>
               ) : (
-                <Link to="/login" className="nav-item">
+                <Link
+                  to="/login"
+                  className="text-orange-500 hover:text-blue-500"
+                >
                   로그인
                 </Link>
               )}
             </div>
           </div>
+
           {/* Navigation Bar */}
-          <div className="navbar">
-            <Link to="/" className="nav-item">
+          <div className="flex justify-center space-x-4 border-b border-gray-300 py-4">
+            <Link
+              to="/"
+              className="px-4 py-2 text-orange-500 border border-orange-500 rounded hover:text-blue-500 hover:border-blue-500"
+            >
               레시피
             </Link>
-            <Link to="/search" className="nav-item">
+            <Link
+              to="/search"
+              className="px-4 py-2 text-orange-500 border border-orange-500 rounded hover:text-blue-500 hover:border-blue-500"
+            >
               검색
             </Link>
-            <Link to="/board" className="nav-item">
+            <Link
+              to="/board"
+              className="px-4 py-2 text-orange-500 border border-orange-500 rounded hover:text-blue-500 hover:border-blue-500"
+            >
               게시물
             </Link>
           </div>
+
           {/* Main Content */}
           <Routes>
             <Route path="/" element={<MainPage />} />
@@ -85,8 +107,23 @@ function App() {
               path="/login"
               element={<LoginPage onLogin={handleLogin} />}
             />
-            <Route path="/board" element={<PostList />} />
+            <Route
+              path="/board"
+              element={
+                <div>
+                  {currentComponent === "postList" && <PostList />}
+                  {currentComponent === "createPost" && <CreatePost />}
+                </div>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProfilePage email={loggedInEmail} onLogout={handleLogout} />
+              }
+            />
           </Routes>
+
           <PostModal />
         </div>
       </QueryClientProvider>

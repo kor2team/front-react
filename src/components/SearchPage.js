@@ -7,6 +7,17 @@ function SearchPage() {
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [selectedMethods, setSelectedMethods] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortOrder, setSortOrder] = useState("정확순");
+  const [isDescending, setIsDescending] = useState(true); // 화살표 방향 제어
+
+  const handleSortChange = (sortType) => {
+    if (sortType === sortOrder) {
+      setIsDescending(!isDescending); // 같은 버튼 클릭 시 방향 변경
+    } else {
+      setSortOrder(sortType); // 버튼 클릭 시 정렬 타입 변경
+      setIsDescending(true); // 기본적으로 아래 화살표로 설정
+    }
+  };
 
   const recipes = [
     {
@@ -174,20 +185,57 @@ function SearchPage() {
       )}
 
       {/* 검색 결과 */}
-      <div className="flex flex-wrap justify-center gap-5 p-5 border-2 border-gray-300 rounded-lg bg-gray-100">
-        {filteredRecipes.length > 0 ? (
-          filteredRecipes.map((recipe) => (
-            <div
-              key={recipe.id}
-              className="p-5 border border-gray-300 rounded-lg bg-white cursor-pointer hover:shadow-lg transition-shadow"
-              onClick={() => setSelectedRecipe(recipe)}
-            >
-              <h3 className="text-lg font-semibold">{recipe.title}</h3>
-            </div>
-          ))
-        ) : (
-          <p>선택된 조건에 해당하는 레시피가 없습니다.</p>
-        )}
+      <div className="flex flex-col p-5 border-2 border-gray-300 rounded-lg bg-gray-100">
+        {/* 버튼들 */}
+        <div className="flex justify-center gap-4 mb-6">
+          <button
+            className="bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 flex items-center gap-2"
+            onClick={() => handleSortChange("정확순")}
+          >
+            정확순
+            {sortOrder === "정확순" && isDescending ? (
+              <span className="material-symbols-outlined">
+                keyboard_arrow_down
+              </span>
+            ) : (
+              <span className="material-symbols-outlined">
+                keyboard_arrow_up
+              </span>
+            )}
+          </button>
+          <button
+            className="bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 flex items-center gap-2"
+            onClick={() => handleSortChange("최신순")}
+          >
+            최신순
+            {sortOrder === "최신순" && isDescending ? (
+              <span className="material-symbols-outlined">
+                keyboard_arrow_down
+              </span>
+            ) : (
+              <span className="material-symbols-outlined">
+                keyboard_arrow_up
+              </span>
+            )}
+          </button>
+        </div>
+
+        {/* 레시피 목록 */}
+        <div className="flex flex-wrap justify-center gap-5">
+          {filteredRecipes.length > 0 ? (
+            filteredRecipes.map((recipe) => (
+              <div
+                key={recipe.id}
+                className="p-5 border border-gray-300 rounded-lg bg-white cursor-pointer hover:shadow-lg transition-shadow"
+                onClick={() => setSelectedRecipe(recipe)}
+              >
+                <h3 className="text-lg font-semibold">{recipe.title}</h3>
+              </div>
+            ))
+          ) : (
+            <p>선택된 조건에 해당하는 레시피가 없습니다.</p>
+          )}
+        </div>
       </div>
 
       {/* 레시피 상세 모달 */}
@@ -195,10 +243,10 @@ function SearchPage() {
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-5 rounded-lg w-80 shadow-lg text-left recipe-detail-modal">
             {/* <img
-              src={require(`../assets/images/${selectedRecipe.image}`)}
-              alt={selectedRecipe.title}
-              className="recipe-image mb-4"
-            /> */}
+        src={require(`../assets/images/${selectedRecipe.image}`)}
+        alt={selectedRecipe.title}
+        className="recipe-image mb-4"
+      /> */}
             <div className="recipe-info">
               <h2 className="text-lg font-bold mb-2">{selectedRecipe.title}</h2>
               <p>{selectedRecipe.description}</p>
