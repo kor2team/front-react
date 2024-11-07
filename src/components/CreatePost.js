@@ -2,30 +2,9 @@ import React, { useState } from "react";
 import useStore from "../store/useStore";
 
 function CreatePost() {
-  const [image, setImage] = useState(null);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-
-  const addPost = useStore((state) => state.addPost);
   const setComponent = useStore((state) => state.setComponent);
-
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImage(URL.createObjectURL(file));
-    }
-  };
-
-  const handleSave = () => {
-    const newPost = {
-      id: Date.now(),
-      title,
-      description,
-      image,
-      userId: 1, // 임시 사용자 ID
-    };
-    addPost(newPost); // 게시물 추가
-    setComponent("postList"); // PostList로 이동
+  const handlePostList = () => {
+    setComponent("postList");
   };
 
   // 레시피 작성 상태 관리
@@ -39,65 +18,88 @@ function CreatePost() {
   };
 
   return (
-    <div className="w-full max-w-container mx-auto p-5 border border-container rounded-md shadow-modal bg-white">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold">게시글 작성</h2>
-        <button
-          className="text-white text-lg"
-          onClick={() => setComponent("postList")}
-        >
-          <span className="material-symbols-outlined">close</span>
-        </button>
+    <div className="p-4 bg-white min-h-screen">
+      <h2 className="text-2xl text-orange-500 font-bold mb-4">레시피 작성</h2>
+
+      {/* 레시피명 입력 */}
+      <div className="mb-4">
+        <label htmlFor="recipeName" className="text-orange-500 font-bold">
+          레시피명
+        </label>
+        <input
+          id="recipeName"
+          type="text"
+          value={recipeName}
+          onChange={(e) => setRecipeName(e.target.value)}
+          className="w-full p-2 rounded-sm mt-2 border border-orange-500 bg-white"
+          placeholder="레시피명을 입력하세요"
+        />
       </div>
-      <div className="flex gap-5">
-        <div
-          className="w-1/2 h-64 border border-card rounded-md overflow-hidden bg-gray-100 flex justify-center items-center cursor-pointer"
-          onClick={() => document.getElementById("imageUpload").click()} // div 전체 클릭을 트리거
-        >
-          {image ? (
+
+      {/* 이미지 첨부 */}
+      <div className="mb-4">
+        <label htmlFor="image" className="text-orange-500 font-bold">
+          이미지 첨부
+        </label>
+        <input
+          id="image"
+          type="file"
+          onChange={handleImageChange}
+          className="w-full p-2 rounded-sm mt-2 border border-orange-500 bg-white"
+        />
+        {image && (
+          <div className="mt-2">
             <img
               src={image}
-              alt="uploaded"
-              className="w-full h-full object-cover"
+              alt="레시피 이미지"
+              className="w-32 h-32 object-cover"
             />
-          ) : (
-            <label className="text-gray-400 cursor-pointer">
-              <input
-                type="file"
-                id="imageUpload" // ID를 부여
-                className="hidden"
-                onChange={handleImageUpload}
-              />
-              이미지를 업로드하세요
-            </label>
-          )}
-        </div>
-        <div className="w-1/2 space-y-4">
-          <input
-            type="text"
-            placeholder="글 제목을 입력하세요."
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full p-2.5 border border-card rounded-sm focus:outline-none"
-          />
-          <textarea
-            placeholder="내용을 적어주세요."
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="w-full h-40 p-2.5 border border-card rounded-sm focus:outline-none"
-          ></textarea>
-        </div>
+          </div>
+        )}
       </div>
-      <div className="flex justify-end mt-5 gap-4">
+
+      {/* 재료 입력 */}
+      <div className="mb-4">
+        <label htmlFor="ingredients" className="text-orange-500 font-bold">
+          재료
+        </label>
+        <textarea
+          id="ingredients"
+          value={ingredients}
+          onChange={(e) => setIngredients(e.target.value)}
+          className="w-full p-2 rounded-sm mt-2 border border-orange-500 bg-white"
+          rows="4"
+          placeholder="필요한 재료를 입력하세요"
+        />
+      </div>
+
+      {/* 조리 과정 입력 */}
+      <div className="mb-4">
+        <label htmlFor="instructions" className="text-orange-500 font-bold">
+          조리 과정
+        </label>
+        <textarea
+          id="instructions"
+          value={instructions}
+          onChange={(e) => setInstructions(e.target.value)}
+          className="w-full p-2 rounded-sm mt-2 border border-orange-500 bg-white"
+          rows="6"
+          placeholder="조리 과정을 입력하세요"
+        />
+      </div>
+
+      {/* 버튼들 */}
+      <div className="flex flex-wrap justify-start gap-2">
         <button
-          onClick={handleSave}
-          className="px-4 py-2 bg-orange-500 text-white rounded-md"
+          type="submit"
+          onClick={handlePostList}
+          className="bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-sm"
         >
           저장하기
         </button>
         <button
-          onClick={() => setComponent("postList")}
-          className="px-4 py-2 bg-orange-500 text-white rounded-md"
+          onClick={handlePostList}
+          className="bg-orange-600 hover:bg-orange-700 text-white p-4 rounded-full shadow-lg fixed bottom-4 right-4 md:p-3 md:bottom-6 md:right-6 lg:p-4 lg:bottom-4 lg:right-4"
         >
           돌아가기
         </button>

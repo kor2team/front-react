@@ -72,9 +72,10 @@ function PostModal({ userId }) {
           {/* 오른쪽: 제목, 설명, 좋아요 및 댓글 */}
           <div className="w-1/3 p-4">
             <h2 className="text-xl font-bold mb-4 text-gray-800">
-              {selectedPost.title}
+              {selectedPost.recipeName}
             </h2>
-            <p className="text-gray-700">{selectedPost.description}</p>
+            <p className="text-gray-700">{selectedPost.ingredients}</p>
+            <p className="text-gray-700">{selectedPost.instructions}</p>
 
             {/* 좋아요 및 댓글 버튼 */}
             <div className="mt-4 flex items-center space-x-2">

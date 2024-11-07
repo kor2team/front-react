@@ -21,32 +21,28 @@ function PostList({ userId }) {
     const sampleData = {
       posts: [
         {
-          id: pageParam * 3 + 1,
+          id: pageParam * 3 + 1, // 각 게시물의 ID가 중복됨
           userId: 1,
-          title: `게시물 ${pageParam * 3 + 1}`,
+          recipeName: `게시물 ${pageParam * 3 + 1}`,
           image: "https://via.placeholder.com/150",
-          description: "이것은 임의의 설명입니다.",
+          ingredients: "돼지고기, 당근",
+          instructions: "10분간 구우세요 - 내가쓴글 조회용",
         },
         {
-          id: pageParam * 3 + 2,
+          id: pageParam * 3 + 2, // 고유 ID 설정
           userId: 2,
-          title: `게시물 ${pageParam * 3 + 2}`,
+          recipeName: `게시물 ${pageParam * 3 + 2}`,
           image: "https://via.placeholder.com/150",
-          description: "이것은 임의의 설명입니다.",
+          ingredients: "돼지고기, 당근",
+          instructions: "10분간 구우세요",
         },
         {
-          id: pageParam * 3 + 3,
-          userId: userId,
-          title: `게시물 ${pageParam * 3 + 3}`,
+          id: pageParam * 3 + 3, // 고유 ID 설정
+          userId: 3,
+          recipeName: `게시물 ${pageParam * 3 + 3}`,
           image: "https://via.placeholder.com/150",
-          description: "이것은 임의의 설명입니다.",
-        },
-        {
-          id: pageParam * 3 + 4,
-          userId: userId,
-          title: `게시물 ${pageParam * 3 + 3}`,
-          image: "https://via.placeholder.com/150",
-          description: "이것은 임의의 설명입니다.",
+          ingredients: "돼지고기, 당근",
+          instructions: "10분간 구우세요",
         },
       ],
       nextPage: pageParam < 4 ? pageParam + 1 : undefined,
@@ -70,13 +66,13 @@ function PostList({ userId }) {
 
   // 사용자 게시물 필터링을 적용하는 함수
   const filteredPosts = filterUserPosts
-    ? combinedPosts.filter((post) => post.userId === 1)
+    ? combinedPosts.filter((post) => post.userId === userId)
     : combinedPosts;
 
   return (
     <>
       {/* 탭 선택 버튼 */}
-      <div className="flex flex-col sm:flex-row justify-center mb-5">
+      <div className="flex justify-center mb-5">
         <button
           onClick={() => {
             setFilterUserPosts(false);
@@ -84,7 +80,7 @@ function PostList({ userId }) {
           }}
           className={`px-4 py-2 ${
             !filterUserPosts ? "bg-orange-500 text-white" : "bg-gray-200"
-          } rounded-l sm:rounded-none sm:rounded-l border border-card w-full sm:w-auto`}
+          } rounded-l border border-card`}
         >
           전체글 보기
         </button>
@@ -95,38 +91,36 @@ function PostList({ userId }) {
           }}
           className={`px-4 py-2 ${
             filterUserPosts ? "bg-orange-500 text-white" : "bg-gray-200"
-          } rounded-r sm:rounded-none sm:rounded-r border border-card w-full sm:w-auto`}
+          } rounded-r border border-card`}
         >
           내가 쓴글 보기
         </button>
       </div>
 
       {/* 게시물 목록 */}
-      <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 overflow-y-auto">
-        {data?.pages.map((page) =>
-          filteredPosts(page.posts).map((post) => (
-            <div
-              key={post.id}
-              className="bg-white p-4 border border-card rounded-md shadow-card cursor-pointer"
-              onClick={() => openModal(post)}
-            >
-              <img
-                src={post.image}
-                alt={post.title}
-                className="w-full h-32 object-cover rounded-md"
-              />
-              <h3 className="text-lg font-semibold mt-2 text-gray-800">
-                {post.title}
-              </h3>
-              <p className="text-gray-600 mt-1">{post.description}</p>
-            </div>
-          ))
-        )}
+      <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-3.5 overflow-y-auto">
+        {filteredPosts.map((post) => (
+          <div
+            key={post.id}
+            className="bg-white p-4 border border-card rounded-md shadow-card cursor-pointer"
+            onClick={() => openModal(post)}
+          >
+            <img
+              src={post.image}
+              alt={post.recipeName}
+              className="w-full h-32 object-cover rounded-md"
+            />
+            <h3 className="text-lg font-semibold mt-2 text-gray-800">
+              {post.recipeName}
+            </h3>
+            <p className="text-gray-600 mt-1">{post.description}</p>
+          </div>
+        ))}
         {hasNextPage && (
           <button
             onClick={fetchNextPage}
             disabled={isFetchingNextPage}
-            className="text-white bg-orange-500 px-4 py-2 mt-5 rounded shadow-card w-full sm:w-auto"
+            className="text-white bg-orange-500 px-4 py-2 mt-5 rounded shadow-card"
           >
             {isFetchingNextPage ? (
               "로딩중"

@@ -38,6 +38,11 @@ function App() {
 
   const currentComponent = useStore((state) => state.currentComponent);
 
+  const setComponent = useStore((state) => state.setComponent);
+  const handlePostList = () => {
+    setComponent("postList");
+  };
+
   return (
     <Router>
       <QueryClientProvider client={queryClient}>
@@ -96,6 +101,7 @@ function App() {
             <Link
               to="/board"
               className="px-4 py-2 text-orange-500 border border-orange-500 rounded hover:text-blue-500 hover:border-blue-500"
+              onClick={handlePostList}
             >
               게시물
             </Link>

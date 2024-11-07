@@ -16,15 +16,16 @@ const useStore = create((set) => ({
   // 사용자 게시물 필터링 여부
   filterUserPosts: false,
 
-  // 게시물 추가 함수
-  addPost: (post) =>
-    set((state) => ({
-      posts: [post, ...state.posts], // 새 게시물을 배열 앞에 추가
-    })),
-
   // 표시할 컴포넌트를 변경하는 함수
-  setComponent: (component) => set({ currentComponent: component }),
-
+  setComponent: (component) => {
+    console.log("Setting component:", component);
+    set((state) => {
+      if (state.currentComponent !== component) {
+        return { currentComponent: component };
+      }
+      return state;
+    });
+  },
   // 활성화된 탭을 변경하는 함수
   setActiveTab: (tab) => set({ activeTab: tab }),
 
