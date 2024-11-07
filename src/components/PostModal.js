@@ -54,7 +54,7 @@ function PostModal({ userId }) {
         {/* 닫기 버튼 */}
         <button
           onClick={closeModal}
-          className="absolute top-3 right-3 text-lg text-white hover:text-gray-800 transition bg-orange-500 "
+          className="absolute top-3 right-3 text-lg text-white hover:text-gray-800 transition bg-orange-500 hover:bg-orange-600"
         >
           <span class="material-symbols-outlined">close</span>
         </button>

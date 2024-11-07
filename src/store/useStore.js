@@ -1,40 +1,41 @@
 import { create } from "zustand";
 
-// Zustand store 생성 함수 정의
 const useStore = create((set) => ({
-  // 현재 활성화된 탭 상태, 기본값은 "all"
+  posts: [], // 초기 게시물 상태
+
+  // 현재 활성화된 탭 상태
   activeTab: "all",
 
-  // 상세보기 모달의 열림 상태를 나타내는 변수
+  // 현재 표시할 컴포넌트 상태 ("postList", "createPost" 등)
+  currentComponent: "postList",
+
+  // 상세보기 모달 상태 및 선택된 게시물 데이터
   isModalOpen: false,
-
-  // 게시물 작성 상태창 열림 상태 나타내는 변수
-  currentComponent: "postList", // 상태의 기본값은 postList
-
-  // 선택된 게시물의 정보를 저장하는 변수
   selectedPost: null,
-  filterUserPosts: false, // 필터 상태 기본값
 
-  // activeTab을 변경하는 함수, 전달된 탭 이름으로 상태 업데이트
-  setActiveTab: (tab) => set({ activeTab: tab }),
+  // 사용자 게시물 필터링 여부
+  filterUserPosts: false,
 
-  // 게시물 작성창 상태를 변경기능
+  // 게시물 추가 함수
+  addPost: (post) =>
+    set((state) => ({
+      posts: [post, ...state.posts], // 새 게시물을 배열 앞에 추가
+    })),
+
+  // 표시할 컴포넌트를 변경하는 함수
   setComponent: (component) => set({ currentComponent: component }),
 
-  // 상세보기 모달을 열고, 선택된 게시물 데이터를 설정하는 함수
+  // 활성화된 탭을 변경하는 함수
+  setActiveTab: (tab) => set({ activeTab: tab }),
+
+  // 모달을 열고 선택된 게시물을 설정하는 함수
   openModal: (post) => set({ isModalOpen: true, selectedPost: post }),
 
-  // 상세보기 모달을 닫고, 선택된 게시물 데이터를 초기화하는 함수
+  // 모달을 닫고 선택된 게시물을 초기화하는 함수
   closeModal: () => set({ isModalOpen: false, selectedPost: null }),
 
-  // 게시물 생성 컴포넌트를 여는 함수
-  openCreatePost: () => set({ isCreatePostOpen: true }),
-
-  // 필터 상태 변경 함수
+  // 사용자 게시물 필터링 설정 함수
   setFilterUserPosts: (isUserPosts) => set({ filterUserPosts: isUserPosts }),
-
-  // 활성화된 탭 변경 함수
-  setActiveTab: (tab) => set({ activeTab: tab }),
 }));
 
 export default useStore;

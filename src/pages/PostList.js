@@ -2,16 +2,16 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import useStore from "../store/useStore";
 
 function PostList({ userId }) {
-  // Zustand 스토어에서 필요한 상태와 메서드를 가져옴
   const {
+    posts, // Zustand의 posts 상태
     openModal, // 게시물 클릭 시 모달을 여는 함수
     activeTab, // 현재 활성화된 탭
     setActiveTab, // 활성화할 탭 설정 함수
     filterUserPosts, // 사용자 게시물 필터링 여부
     setFilterUserPosts, // 사용자 게시물 필터링 설정 함수
+    setComponent, // 컴포넌트 변경 함수
   } = useStore();
 
-  const setComponent = useStore((state) => state.setComponent);
   const handleCreatePost = () => {
     setComponent("createPost");
   };
@@ -44,7 +44,7 @@ function PostList({ userId }) {
         {
           id: pageParam * 3 + 4,
           userId: userId,
-          title: `게시물 ${pageParam * 3 + 4}`,
+          title: `게시물 ${pageParam * 3 + 3}`,
           image: "https://via.placeholder.com/150",
           description: "이것은 임의의 설명입니다.",
         },
@@ -62,9 +62,16 @@ function PostList({ userId }) {
       getNextPageParam: (lastPage) => lastPage.nextPage,
     });
 
-  // 사용자 게시물 필터링을 수행하는 함수
-  const filteredPosts = (posts) =>
-    filterUserPosts ? posts.filter((post) => post.userId === userId) : posts;
+  // Zustand의 posts 상태와 React Query에서 가져온 posts를 병합
+  const combinedPosts = [
+    ...posts,
+    ...(data?.pages.flatMap((page) => page.posts) || []),
+  ];
+
+  // 사용자 게시물 필터링을 적용하는 함수
+  const filteredPosts = filterUserPosts
+    ? combinedPosts.filter((post) => post.userId === 1)
+    : combinedPosts;
 
   return (
     <>
@@ -96,35 +103,35 @@ function PostList({ userId }) {
 
       {/* 게시물 목록 */}
       <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-3.5 overflow-y-auto">
-        {data?.pages.map((page) =>
-          filteredPosts(page.posts).map((post) => (
-            <div
-              key={post.id}
-              className="bg-white p-4 border border-card rounded-md shadow-card cursor-pointer"
-              onClick={() => openModal(post)}
-            >
-              <img
-                src={post.image}
-                alt={post.title}
-                className="w-full h-32 object-cover rounded-md"
-              />
-              <h3 className="text-lg font-semibold mt-2 text-gray-800">
-                {post.title}
-              </h3>
-              <p className="text-gray-600 mt-1">{post.description}</p>
-            </div>
-          ))
-        )}
+        {filteredPosts.map((post) => (
+          <div
+            key={post.id}
+            className="bg-white p-4 border border-card rounded-md shadow-card cursor-pointer"
+            onClick={() => openModal(post)}
+          >
+            <img
+              src={post.image}
+              alt={post.title}
+              className="w-full h-32 object-cover rounded-md"
+            />
+            <h3 className="text-lg font-semibold mt-2 text-gray-800">
+              {post.title}
+            </h3>
+            <p className="text-gray-600 mt-1">{post.description}</p>
+          </div>
+        ))}
+      </div>
+      <div className="max-w-4xl flex justify-center  items-center">
         {hasNextPage && (
           <button
             onClick={fetchNextPage}
             disabled={isFetchingNextPage}
-            className="text-white bg-orange-500 px-4 py-2 mt-5 rounded shadow-card"
+            className="bg-orange-500 text-white p-4 max-w-4xl shadow-lg hover:bg-orange-600 justify-center item-center"
           >
             {isFetchingNextPage ? (
               "로딩중"
             ) : (
-              <span class="material-symbols-outlined">add</span>
+              <span className="material-symbols-outlined">add</span>
             )}
           </button>
         )}
