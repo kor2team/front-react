@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 function SearchPage() {
   const [isIngredientModalOpen, setIngredientModalOpen] = useState(false);
@@ -6,17 +6,23 @@ function SearchPage() {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [selectedMethods, setSelectedMethods] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [sortOrder, setSortOrder] = useState("정확순");
-  const [isDescending, setIsDescending] = useState(true); // 화살표 방향 제어
 
-  const handleSortChange = (sortType) => {
-    if (sortType === sortOrder) {
-      setIsDescending(!isDescending); // 같은 버튼 클릭 시 방향 변경
-    } else {
-      setSortOrder(sortType); // 버튼 클릭 시 정렬 타입 변경
-      setIsDescending(true); // 기본적으로 아래 화살표로 설정
-    }
+  const [searchQuery, setSearchQuery] = useState("");
+  const inputRef = useRef(null); // 입력창을 참조하는 ref
+
+  const [isDescendingAccuracy, setIsDescendingAccuracy] = useState(false); // 정확순 정렬 방향
+  const [isDescendingRecent, setIsDescendingRecent] = useState(false); // 최신순 정렬 방향
+
+  const handleAccuracySort = () => {
+    setIsDescendingAccuracy(!isDescendingAccuracy); // 정확순 화살표 상태 토글
+  };
+
+  const handleRecentSort = () => {
+    setIsDescendingRecent(!isDescendingRecent); // 최신순 화살표 상태 토글
+  };
+
+  const handleSearchIconClick = () => {
+    inputRef.current.focus(); // 아이콘 클릭 시 입력창에 포커스
   };
 
   const recipes = [
@@ -74,17 +80,24 @@ function SearchPage() {
   return (
     <div className="p-5 text-center">
       {/* 검색 입력 박스 */}
-      <div className="mb-4">
+      <div className="flex items-center justify-center">
         <input
           type="text"
           placeholder="레시피를 검색하세요..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          ref={inputRef} // ref를 입력창에 연결
           className="w-72 h-10 p-2 border-2 border-orange-500 rounded-full mb-2"
         />
-        <span className="material-symbols-outlined">search</span>
+        <span
+          className="material-symbols-outlined cursor-pointer ml-2"
+          onClick={handleSearchIconClick} // 아이콘 클릭 시 포커스 함수 호출
+        >
+          search
+        </span>
       </div>
 
+      {/* 재료, 조리방식 button */}
       <div className="mb-5">
         <button
           className="px-5 py-2 text-white text-lg bg-orange-500 rounded-md mx-2"
@@ -190,10 +203,10 @@ function SearchPage() {
         <div className="flex justify-center gap-4 mb-6">
           <button
             className="bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 flex items-center gap-2"
-            onClick={() => handleSortChange("정확순")}
+            onClick={handleAccuracySort}
           >
             정확순
-            {sortOrder === "정확순" && isDescending ? (
+            {isDescendingAccuracy ? (
               <span className="material-symbols-outlined">
                 keyboard_arrow_down
               </span>
@@ -205,10 +218,10 @@ function SearchPage() {
           </button>
           <button
             className="bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 flex items-center gap-2"
-            onClick={() => handleSortChange("최신순")}
+            onClick={handleRecentSort}
           >
             최신순
-            {sortOrder === "최신순" && isDescending ? (
+            {isDescendingRecent ? (
               <span className="material-symbols-outlined">
                 keyboard_arrow_down
               </span>
