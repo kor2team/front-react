@@ -51,8 +51,20 @@ function App() {
           <div className="flex justify-between items-center p-5 border-b-2 border-orange-500">
             <div className="flex items-center">
               <Link to="/" className="flex items-center">
-                <img src={logo} alt="Logo" className="max-w-12 h-auto mr-2" />
-                <span className="text-xl font-semibold text-orange-500">
+                <img
+                  src={logo}
+                  alt="Logo"
+                  className="max-w-12 h-auto mr-2 rounded-full"
+                />
+                <span
+                  className="text-xl font-semibold text-orange-500"
+                  style={{
+                    fontFamily: "'Nanum Pen Script', cursive", // Nanum Pen Script 폰트 적용
+                    letterSpacing: "4px", // 글자 간격을 넓혀서 날려쓰는 느낌
+                    fontWeight: "normal", // 글자 굵기 조정
+                    fontSize: "2rem",
+                  }}
+                >
                   맛남의 장
                 </span>
               </Link>
@@ -68,9 +80,9 @@ function App() {
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="bg-orange-500 text-white py-2 px-4 rounded hover:bg-blue-500"
+                    className="bg-orange-500 text-white py-2 px-4 rounded hover:bg-blue-500 material-symbols-outlined"
                   >
-                    로그아웃
+                    logout
                   </button>
                 </>
               ) : (

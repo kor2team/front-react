@@ -1,5 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import useStore from "../store/useStore";
+import { useEffect } from "react";
 
 function PostList({ userId }) {
   const {
@@ -66,7 +67,7 @@ function PostList({ userId }) {
 
   // 사용자 게시물 필터링을 적용하는 함수
   const filteredPosts = filterUserPosts
-    ? combinedPosts.filter((post) => post.userId === userId)
+    ? combinedPosts.filter((post) => post.userId === 1)
     : combinedPosts;
 
   return (
@@ -116,11 +117,13 @@ function PostList({ userId }) {
             <p className="text-gray-600 mt-1">{post.description}</p>
           </div>
         ))}
+      </div>
+      <div>
         {hasNextPage && (
           <button
             onClick={fetchNextPage}
             disabled={isFetchingNextPage}
-            className="text-white bg-orange-500 px-4 py-2 mt-5 rounded shadow-card"
+            className="text-white bg-orange-500 px-6 py-3 mt-5 rounded shadow-card w-3/4 mx-auto flex justify-center items-center"
           >
             {isFetchingNextPage ? (
               "로딩중"
