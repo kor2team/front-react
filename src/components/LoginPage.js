@@ -33,6 +33,7 @@ function LoginPage({ onLogin }) {
     }
 
     alert("회원가입 성공!");
+    onLogin(email);
     // 회원가입 후 처리 로직
     // 예: 서버에 데이터 전송
   };
