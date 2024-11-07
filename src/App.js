@@ -62,9 +62,9 @@ function App() {
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="bg-orange-500 text-white py-2 px-4 rounded hover:bg-blue-500"
+                    className="bg-orange-500 text-white py-2 px-4 rounded hover:bg-blue-500 material-symbols-outlined"
                   >
-                    로그아웃
+                    logout
                   </button>
                 </>
               ) : (
