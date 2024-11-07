@@ -28,6 +28,16 @@ function CreatePost() {
     setComponent("postList"); // PostList로 이동
   };
 
+  // 레시피 작성 상태 관리
+  const [recipeName, setRecipeName] = useState("");
+  const [image, setImage] = useState(null);
+  const [ingredients, setIngredients] = useState("");
+  const [instructions, setInstructions] = useState("");
+
+  const handleImageChange = (e) => {
+    setImage(URL.createObjectURL(e.target.files[0]));
+  };
+
   return (
     <div className="w-full max-w-container mx-auto p-5 border border-container rounded-md shadow-modal bg-white">
       <div className="flex justify-between items-center mb-4">

@@ -76,7 +76,7 @@ function PostList({ userId }) {
   return (
     <>
       {/* 탭 선택 버튼 */}
-      <div className="flex justify-center mb-5">
+      <div className="flex flex-col sm:flex-row justify-center mb-5">
         <button
           onClick={() => {
             setFilterUserPosts(false);
@@ -84,7 +84,7 @@ function PostList({ userId }) {
           }}
           className={`px-4 py-2 ${
             !filterUserPosts ? "bg-orange-500 text-white" : "bg-gray-200"
-          } rounded-l border border-card`}
+          } rounded-l sm:rounded-none sm:rounded-l border border-card w-full sm:w-auto`}
         >
           전체글 보기
         </button>
@@ -95,38 +95,38 @@ function PostList({ userId }) {
           }}
           className={`px-4 py-2 ${
             filterUserPosts ? "bg-orange-500 text-white" : "bg-gray-200"
-          } rounded-r border border-card`}
+          } rounded-r sm:rounded-none sm:rounded-r border border-card w-full sm:w-auto`}
         >
           내가 쓴글 보기
         </button>
       </div>
 
       {/* 게시물 목록 */}
-      <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-3.5 overflow-y-auto">
-        {filteredPosts.map((post) => (
-          <div
-            key={post.id}
-            className="bg-white p-4 border border-card rounded-md shadow-card cursor-pointer"
-            onClick={() => openModal(post)}
-          >
-            <img
-              src={post.image}
-              alt={post.title}
-              className="w-full h-32 object-cover rounded-md"
-            />
-            <h3 className="text-lg font-semibold mt-2 text-gray-800">
-              {post.title}
-            </h3>
-            <p className="text-gray-600 mt-1">{post.description}</p>
-          </div>
-        ))}
-      </div>
-      <div className="max-w-4xl flex justify-center  items-center">
+      <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 overflow-y-auto">
+        {data?.pages.map((page) =>
+          filteredPosts(page.posts).map((post) => (
+            <div
+              key={post.id}
+              className="bg-white p-4 border border-card rounded-md shadow-card cursor-pointer"
+              onClick={() => openModal(post)}
+            >
+              <img
+                src={post.image}
+                alt={post.title}
+                className="w-full h-32 object-cover rounded-md"
+              />
+              <h3 className="text-lg font-semibold mt-2 text-gray-800">
+                {post.title}
+              </h3>
+              <p className="text-gray-600 mt-1">{post.description}</p>
+            </div>
+          ))
+        )}
         {hasNextPage && (
           <button
             onClick={fetchNextPage}
             disabled={isFetchingNextPage}
-            className="bg-orange-500 text-white p-4 max-w-4xl shadow-lg hover:bg-orange-600 justify-center item-center"
+            className="text-white bg-orange-500 px-4 py-2 mt-5 rounded shadow-card w-full sm:w-auto"
           >
             {isFetchingNextPage ? (
               "로딩중"

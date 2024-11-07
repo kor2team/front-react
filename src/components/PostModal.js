@@ -81,13 +81,14 @@ function PostModal({ userId }) {
               {/* 좋아요 버튼 */}
               <button
                 onClick={handleLike}
-                className="mr-2 border bg-orange-500 border-modal shadow-modal text-lg text-flex items-center hover:text-gray-800"
+                className="mr-2 border bg-orange-500 border-modal shadow-modal text-xl px-4 py-2 text-flex items-center hover:text-gray-800"
               >
                 ❤️ <span className="ml-1">{newLike}</span>
               </button>
+
               {/* 댓글 보기 토글 버튼 */}
               <button
-                className="mr-2 border bg-orange-500 border-modal shadow-modal text-lg text-flex items-center hover:text-gray-800"
+                className="mr-2 border bg-orange-500 border-modal shadow-modal text-xl px-4 py-2 text-flex items-center hover:text-gray-800"
                 onClick={() => setShowComments(!showComments)}
               >
                 💬 <span className="ml-1">{comments.length}</span>
