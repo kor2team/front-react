@@ -89,13 +89,13 @@ function SearchPage() {
       {/* 재료, 조리방식 button */}
       <div className="mb-5">
         <button
-          className="px-5 py-2 text-white text-lg bg-orange-500 rounded-md mx-2"
+          className="w-28 px-5 py-2 text-white text-lg bg-orange-500 rounded-md mx-2"
           onClick={() => setIngredientModalOpen(true)}
         >
           재료
         </button>
         <button
-          className="px-5 py-2 text-white text-lg bg-orange-500 rounded-md mx-2"
+          className="w-28 px-5 py-2 text-white text-lg bg-orange-500 rounded-md mx-2"
           onClick={() => setMethodModalOpen(true)}
         >
           조리방식

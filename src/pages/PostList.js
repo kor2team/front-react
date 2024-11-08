@@ -97,8 +97,10 @@ function PostList({ userId }) {
             setActiveTab("all"); // 전체글 보기 탭 활성화
           }}
           className={`px-4 py-2 ${
-            activeTab === "all" ? "bg-orange-500 text-white" : "bg-gray-200"
-          } rounded-l sm:rounded-none sm:rounded-l border border-card w-full sm:w-auto`}
+            activeTab === "all"
+              ? "bg-orange-500 text-white text-center"
+              : "bg-gray-200"
+          } rounded-l sm:rounded-none sm:rounded-l border border-card w-1/4  text-center`}
         >
           전체글 보기
         </button>
@@ -109,8 +111,10 @@ function PostList({ userId }) {
             setActiveTab("user"); // 내가 쓴 글 보기 탭 활성화
           }}
           className={`px-4 py-2 ${
-            activeTab === "user" ? "bg-orange-500 text-white" : "bg-gray-200"
-          } border border-card w-full sm:w-auto`}
+            activeTab === "user"
+              ? "bg-orange-500 text-white  text-center"
+              : "bg-gray-200"
+          } border border-card w-1/4  text-center`}
         >
           내가 쓴 글 보기
         </button>
@@ -121,15 +125,17 @@ function PostList({ userId }) {
             setActiveTab("liked"); // 좋아요한 글 보기 탭 활성화
           }}
           className={`px-4 py-2 ${
-            activeTab === "liked" ? "bg-orange-500 text-white" : "bg-gray-200"
-          } rounded-r sm:rounded-none sm:rounded-r border border-card w-full sm:w-auto`}
+            activeTab === "liked"
+              ? "bg-orange-500 text-white  text-center"
+              : "bg-gray-200"
+          } rounded-r sm:rounded-none sm:rounded-r border border-card w-1/4  text-center`}
         >
           좋아요한 글 보기
         </button>
       </div>
 
       {/* 게시물 리스트 표시 */}
-      <div className="p-4 grid grid-cols-2 gap-4 w-full  h-4/5 overflow-y-auto">
+      <div className="p-4 grid grid-cols-2 gap-4 w-full h-4/5 overflow-y-auto">
         {data?.pages.map((page) =>
           filteredPosts(page.posts).map((post) => (
             <div
@@ -142,7 +148,7 @@ function PostList({ userId }) {
                 alt={post.recipeName}
                 className="w-full h-32 object-cover rounded-md"
               />
-              <h3 className="text-lg font-semibold mt-2 text-gray-800">
+              <h3 className="text-lg font-semibold mt-2 text-gray-800  text-center">
                 {post.recipeName}
               </h3>
               <p className="text-gray-600 mt-1">{post.description}</p>

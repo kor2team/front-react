@@ -92,7 +92,7 @@ function MainPage() {
               className="w-full h-[200px] object-cover rounded-t-lg mb-4"
             />
             <div className="flex flex-col flex-grow gap-2">
-              <h3 className="text-lg font-bold text-orange-500">
+              <h3 className="text-lg font-bold text-orange-500 text-center">
                 {recipe.title}
               </h3>
               <p className="text-sm text-gray-500 mb-4 h-20">
