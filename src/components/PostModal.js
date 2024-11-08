@@ -6,9 +6,9 @@ function PostModal({ userId }) {
 
   // 댓글, 좋아요, 댓글 표시 여부 등의 상태 관리
   const [comments, setComments] = useState([
-    { id: 1, text: "첫 번째 댓글입니다.", userId: 1 },
-    { id: 2, text: "좋은 게시물입니다!", userId: 2 },
-    { id: 3, text: "궁금한 점이 있습니다.", userId: 1 },
+    { id: 1, text: "첫 번째 댓글입니다.", userId: "test@example.com" },
+    { id: 2, text: "좋은 게시물입니다!", userId: "test2@example.com" },
+    { id: 3, text: "궁금한 점이 있습니다.", userId: "test3@example.com" },
   ]);
   const [newComment, setNewComment] = useState(""); // 새로운 댓글 입력 상태
   const [newLike, setNewLike] = useState(0); // 좋아요 수 상태
@@ -125,7 +125,7 @@ function PostModal({ userId }) {
                     className="text-gray-700 flex items-center justify-between"
                   >
                     <span>{comment.text}</span>
-                    {comment.userId === 1 && ( //임의 아이디 1로 설정
+                    {comment.userId === "test@example.com" && (
                       <div className="flex space-x-2">
                         <button
                           onClick={() => handleEditComment(comment.id)}

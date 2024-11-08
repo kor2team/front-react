@@ -37,7 +37,7 @@ function PostList() {
       posts: [
         {
           id: pageParam * 3 + 1,
-          userId: 1,
+          userId: "test@example.com",
           recipeName: `게시물 ${pageParam * 3 + 1}`,
           image: "https://via.placeholder.com/150",
           ingredients: "고기, 감자",
@@ -46,34 +46,7 @@ function PostList() {
         },
         {
           id: pageParam * 3 + 1,
-          userId: 1,
-          recipeName: `게시물 ${pageParam * 3 + 1}`,
-          image: "https://via.placeholder.com/150",
-          ingredients: "고기, 감자",
-          instructions: "이것은 임의의 설명입니다.",
-          likedByUser: pageParam % 2 === 0, // 짝수 페이지의 게시물은 좋아요한 것으로 표시
-        },
-        {
-          id: pageParam * 3 + 1,
-          userId: 2,
-          recipeName: `게시물 ${pageParam * 3 + 1}`,
-          image: "https://via.placeholder.com/150",
-          ingredients: "고기, 감자",
-          instructions: "이것은 임의의 설명입니다.",
-          likedByUser: pageParam % 2 === 0, // 짝수 페이지의 게시물은 좋아요한 것으로 표시
-        },
-        {
-          id: pageParam * 3 + 1,
-          userId: 3,
-          recipeName: `게시물 ${pageParam * 3 + 1}`,
-          image: "https://via.placeholder.com/150",
-          ingredients: "고기, 감자",
-          instructions: "이것은 임의의 설명입니다.",
-          likedByUser: pageParam % 2 === 0, // 짝수 페이지의 게시물은 좋아요한 것으로 표시
-        },
-        {
-          id: pageParam * 3 + 1,
-          userId: 4,
+          userId: "test@example2.com",
           recipeName: `게시물 ${pageParam * 3 + 1}`,
           image: "https://via.placeholder.com/150",
           ingredients: "고기, 감자",
@@ -97,7 +70,7 @@ function PostList() {
   // 게시물을 필터링하는 함수
   const filteredPosts = (posts) => {
     if (filterUserPosts) {
-      return posts.filter((post) => post.userId === 1); // 내가 쓴 글만 필터링 (임의로 userId 1 설정)
+      return posts.filter((post) => post.userId === "test@example.com"); // 내가 쓴 글만 필터링 (임의로 userId 1 설정)
     }
     if (filterLikedPosts) {
       return posts.filter((post) => post.likedByUser); // 좋아요한 글만 필터링
