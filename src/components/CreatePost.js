@@ -97,7 +97,7 @@ function CreatePost() {
         <button
           type="submit"
           onClick={handlePostList}
-          className="bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-sm"
+          className="bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-sm shadow-lg"
         >
           저장하기
         </button>

@@ -107,7 +107,7 @@ function SearchPage() {
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-5 rounded-lg w-72 shadow-lg text-left">
             <h2 className="text-lg font-bold mb-4">재료</h2>
-            <label className="flex items-center mb-2 whitespace-nowrap">
+            <label className="flex items-center mb-2 w-80 whitespace-nowrap">
               돼지고기
               <input
                 type="checkbox"

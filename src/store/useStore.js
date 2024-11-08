@@ -20,10 +20,13 @@ const useStore = create((set) => ({
   // 좋아요한 게시물 필터링 상태
   filterLikedPosts: false,
 
+  // 로그인 여부 상태, 기본값은 false (로그아웃 상태)
+  isLoggedIn: false,
+
   // activeTab을 변경하는 함수
   setActiveTab: (tab) => set({ activeTab: tab }),
 
-  // 게시물 작성창 상태를 변경기능
+  // 게시물 작성창 상태를 변경 기능
   setComponent: (component) => set({ currentComponent: component }),
 
   // 상세보기 모달을 열고, 선택된 게시물 데이터를 설정하는 함수
@@ -32,9 +35,18 @@ const useStore = create((set) => ({
   // 상세보기 모달을 닫고, 선택된 게시물 데이터를 초기화하는 함수
   closeModal: () => set({ isModalOpen: false, selectedPost: null }),
 
+  // 내가 쓴 글 보기 필터링 설정 함수
   setFilterUserPosts: (isUserPosts) => set({ filterUserPosts: isUserPosts }),
+
+  // 좋아요한 글 필터링 설정 함수
   setFilterLikedPosts: (isLikedPosts) =>
-    set({ filterLikedPosts: isLikedPosts }), // 좋아요한 글 필터링 설정 함수
+    set({ filterLikedPosts: isLikedPosts }),
+
+  // 로그인 상태를 설정하는 함수 (로그인/로그아웃 처리)
+  setIsLoggedIn: (status) => set({ isLoggedIn: status }),
+
+  // 로그인 상태를 토글하는 함수 (테스트 용도)
+  toggleLogin: () => set((state) => ({ isLoggedIn: !state.isLoggedIn })),
 }));
 
 export default useStore;
