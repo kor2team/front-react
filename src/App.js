@@ -101,7 +101,7 @@ function App() {
             </header>
 
             {/* Navigation Bar */}
-            <nav className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-x-4 sm:space-y-0 border-b border-gray-300 py-4">
+            <nav className="flex flex-row justify-center items-center space-x-4 border-b border-gray-300 py-4">
               <Link
                 to="/"
                 className="w-24 px-4 py-2 text-orange-500 border border-orange-500 rounded hover:text-blue-500 hover:border-blue-500 text-center"

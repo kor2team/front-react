@@ -108,7 +108,7 @@ function PostList() {
   return (
     <>
       {/* 게시물 필터링 버튼 */}
-      <div className="flex flex-col sm:flex-row justify-center mb-5">
+      <div className="flex flex-row justify-center mb-5">
         <button
           onClick={() => {
             setFilterUserPosts(false);
@@ -119,7 +119,10 @@ function PostList() {
             activeTab === "all" ? "bg-orange-500 text-white" : "bg-gray-200"
           } rounded-l sm:rounded-none sm:rounded-l border border-card w-1/4 text-center`}
         >
-          전체글 보기
+          <div className="flex flex-col items-center">
+            <span>전체 글</span>
+            <span>보기</span>
+          </div>
         </button>
         <button
           onClick={() => {
@@ -131,7 +134,10 @@ function PostList() {
             activeTab === "user" ? "bg-orange-500 text-white" : "bg-gray-200"
           } border border-card w-1/4 text-center`}
         >
-          내가 쓴 글 보기
+          <div className="flex flex-col items-center">
+            <span>내가 쓴</span>
+            <span>글 보기</span>
+          </div>
         </button>
         <button
           onClick={() => {
@@ -143,7 +149,10 @@ function PostList() {
             activeTab === "liked" ? "bg-orange-500 text-white" : "bg-gray-200"
           } rounded-r sm:rounded-none sm:rounded-r border border-card w-1/4 text-center`}
         >
-          좋아요한 글 보기
+          <div className="flex flex-col items-center">
+            <span>좋아요한</span>
+            <span>글 보기</span>
+          </div>
         </button>
       </div>
 
