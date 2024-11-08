@@ -2,23 +2,27 @@ import React, { useState } from "react";
 import useStore from "../store/useStore";
 
 function CreatePost() {
+  // Zustand에서 컴포넌트 전환 함수 가져옴
   const setComponent = useStore((state) => state.setComponent);
+
+  // 게시물 목록으로 돌아가는 함수
   const handlePostList = () => {
     setComponent("postList");
   };
 
   // 레시피 작성 상태 관리
-  const [recipeName, setRecipeName] = useState("");
-  const [image, setImage] = useState(null);
-  const [ingredients, setIngredients] = useState("");
-  const [instructions, setInstructions] = useState("");
+  const [recipeName, setRecipeName] = useState(""); // 레시피명 상태
+  const [image, setImage] = useState(null); // 이미지 상태
+  const [ingredients, setIngredients] = useState(""); // 재료 상태
+  const [instructions, setInstructions] = useState(""); // 조리 과정 상태
 
+  // 이미지 파일 선택 시 이미지 URL 설정
   const handleImageChange = (e) => {
     setImage(URL.createObjectURL(e.target.files[0]));
   };
 
   return (
-    <div className="p-4 bg-white min-h-screen">
+    <div className="p-4 bg-white  h-3/4">
       <h2 className="text-2xl text-orange-500 font-bold mb-4">레시피 작성</h2>
 
       {/* 레시피명 입력 */}

@@ -10,17 +10,6 @@ function SearchPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const inputRef = useRef(null); // 입력창을 참조하는 ref
 
-  const [isDescendingAccuracy, setIsDescendingAccuracy] = useState(false); // 정확순 정렬 방향
-  const [isDescendingRecent, setIsDescendingRecent] = useState(false); // 최신순 정렬 방향
-
-  const handleAccuracySort = () => {
-    setIsDescendingAccuracy(!isDescendingAccuracy); // 정확순 화살표 상태 토글
-  };
-
-  const handleRecentSort = () => {
-    setIsDescendingRecent(!isDescendingRecent); // 최신순 화살표 상태 토글
-  };
-
   const handleSearchIconClick = () => {
     inputRef.current.focus(); // 아이콘 클릭 시 입력창에 포커스
   };
@@ -87,7 +76,7 @@ function SearchPage() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           ref={inputRef} // ref를 입력창에 연결
-          className="w-72 h-10 p-2 border-2 border-orange-500 rounded-full mb-2"
+          className="ml-6 mb-5 w-72 h-10 p-2 border-2 border-orange-500 rounded-full"
         />
         <span
           className="material-symbols-outlined cursor-pointer ml-2"
@@ -199,40 +188,6 @@ function SearchPage() {
 
       {/* 검색 결과 */}
       <div className="flex flex-col p-5 border-2 border-gray-300 rounded-lg bg-gray-100">
-        {/* 버튼들 */}
-        <div className="flex justify-center gap-4 mb-6">
-          <button
-            className="bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 flex items-center gap-2"
-            onClick={handleAccuracySort}
-          >
-            정확순
-            {isDescendingAccuracy ? (
-              <span className="material-symbols-outlined">
-                keyboard_arrow_down
-              </span>
-            ) : (
-              <span className="material-symbols-outlined">
-                keyboard_arrow_up
-              </span>
-            )}
-          </button>
-          <button
-            className="bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 flex items-center gap-2"
-            onClick={handleRecentSort}
-          >
-            최신순
-            {isDescendingRecent ? (
-              <span className="material-symbols-outlined">
-                keyboard_arrow_down
-              </span>
-            ) : (
-              <span className="material-symbols-outlined">
-                keyboard_arrow_up
-              </span>
-            )}
-          </button>
-        </div>
-
         {/* 레시피 목록 */}
         <div className="flex flex-wrap justify-center gap-5">
           {filteredRecipes.length > 0 ? (

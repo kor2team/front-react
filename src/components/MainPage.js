@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import PostModal from "./PostModal";
+import MainPage_RecipeDescription from "./MainPage_RecipeDescription";
 
 function MainPage() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRecipeDescriptionOpen, setIsRecipeDescriptionOpen] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
 
   const recipes = [
@@ -65,50 +65,60 @@ function MainPage() {
   ];
 
   // 모달 열기
-  const openModal = (recipe) => {
+  const openRecipeDescriptionModal = (recipe) => {
     setSelectedRecipe(recipe);
-    setIsModalOpen(true);
+    setIsRecipeDescriptionOpen(true);
   };
 
   // 모달 닫기
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const closeRecipeDescriptionModal = () => {
+    setIsRecipeDescriptionOpen(false);
     setSelectedRecipe(null);
   };
 
   return (
-    <div className="p-5 bg-gray-100 min-h-screen">
+    <div className="p-5 bg-gray-100 h-3/4">
       {/* 레시피 카드들 */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
         {recipes.map((recipe) => (
           <div
             key={recipe.id}
-            className="p-4 bg-white rounded-lg shadow-md border border-gray-200"
+            className="p-4 bg-white rounded-lg shadow-md border border-gray-200 relative cursor-pointer"
+            onClick={() => openRecipeDescriptionModal(recipe)} // 카드 클릭 시 모달 열기
           >
             <img
               src={recipe.imageUrl}
               alt={recipe.title}
               className="w-full h-[200px] object-cover rounded-t-lg mb-4"
             />
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col flex-grow gap-2">
               <h3 className="text-lg font-bold text-orange-500">
                 {recipe.title}
               </h3>
-              <p className="text-sm text-gray-500">{recipe.description}</p>
+              <p className="text-sm text-gray-500 mb-4 h-20">
+                {recipe.description}
+              </p>
               <button
-                onClick={() => openModal(recipe)}
-                className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-lg"
+                onClick={(e) => {
+                  e.stopPropagation(); // 버튼 클릭 시 카드의 클릭 이벤트 전파 방지
+                  console.log(`유튜브 기능 연결 예정 - ${recipe.title}`);
+                }}
+                className="bg-orange-500 text-white py-2 px-4 rounded-lg mt-auto"
               >
-                더 보기
+                youtube
               </button>
             </div>
           </div>
         ))}
       </div>
 
-      {/* 모달 */}
-      {isModalOpen && selectedRecipe && (
-        <PostModal recipe={selectedRecipe} onClose={closeModal} />
+      {/* MainPage_RecipeDescription 모달 */}
+      {isRecipeDescriptionOpen && selectedRecipe && (
+        <MainPage_RecipeDescription
+          isOpen={isRecipeDescriptionOpen}
+          onClose={closeRecipeDescriptionModal}
+          recipe={selectedRecipe}
+        />
       )}
     </div>
   );

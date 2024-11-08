@@ -2,14 +2,13 @@ import useStore from "../store/useStore";
 import { useState } from "react";
 
 function PostModal({ userId }) {
-  // Zustand에서 모달 상태, 선택된 게시물 정보를 가져옴
   const { isModalOpen, closeModal, selectedPost } = useStore();
 
   // 댓글, 좋아요, 댓글 표시 여부 등의 상태 관리
   const [comments, setComments] = useState([
-    { id: 1, text: "첫 번째 댓글입니다." },
-    { id: 2, text: "좋은 게시물입니다!" },
-    { id: 3, text: "궁금한 점이 있습니다." },
+    { id: 1, text: "첫 번째 댓글입니다.", userId: 1 },
+    { id: 2, text: "좋은 게시물입니다!", userId: 2 },
+    { id: 3, text: "궁금한 점이 있습니다.", userId: 1 },
   ]);
   const [newComment, setNewComment] = useState(""); // 새로운 댓글 입력 상태
   const [newLike, setNewLike] = useState(0); // 좋아요 수 상태
@@ -27,6 +26,7 @@ function PostModal({ userId }) {
     const newCommentObject = {
       id: comments.length + 1,
       text: newComment,
+      userId, // 현재 사용자의 ID를 새 댓글에 할당
     };
     setComments([...comments, newCommentObject]); // 새로운 댓글을 댓글 리스트에 추가
     setNewComment(""); // 입력 필드 초기화
@@ -40,23 +40,36 @@ function PostModal({ userId }) {
     }
   };
 
+  // 댓글 수정 핸들러
+  const handleEditComment = (commentId) => {
+    const editedText = prompt("댓글을 수정하세요:");
+    if (editedText) {
+      setComments(
+        comments.map((comment) =>
+          comment.id === commentId ? { ...comment, text: editedText } : comment
+        )
+      );
+    }
+  };
+
+  // 댓글 삭제 핸들러
+  const handleDeleteComment = (commentId) => {
+    setComments(comments.filter((comment) => comment.id !== commentId));
+  };
+
   // 모달이 열려 있지 않거나 선택된 게시물이 없으면 null 반환
   if (!isModalOpen || !selectedPost) return null;
 
   return (
-    // 모달 배경
     <div className="fixed inset-0 bg-black bg-opacity-80 backdrop-blur-lg flex items-center justify-center z-50">
-      {/* 모달 컨테이너 */}
-      <div
-        className="bg-white p-6 rounded-md shadow-modal relative max-w-4xl w-full flex flex-col border border-card
-      "
-      >
+      <div className="bg-white p-6 rounded-md shadow-modal relative max-w-4xl w-full flex flex-col border border-card">
         {/* 닫기 버튼 */}
         <button
           onClick={closeModal}
-          className="absolute top-3 right-3 text-lg text-white hover:text-gray-800 transition bg-orange-500 hover:bg-orange-600"
+          className="absolute top-3 right-3 text-white transition bg-orange-500 
+          border-modal shadow-modal text-lg px-2 py-1 text-flex items-center hover:text-gray-800"
         >
-          <span class="material-symbols-outlined">close</span>
+          <span className="material-symbols-outlined">close</span>
         </button>
 
         <div className="flex flex-row">
@@ -64,7 +77,7 @@ function PostModal({ userId }) {
           <div className="w-2/3">
             <img
               src={selectedPost.image}
-              alt={selectedPost.title}
+              alt={selectedPost.recipeName}
               className="w-full rounded-md shadow-card"
             />
           </div>
@@ -107,8 +120,27 @@ function PostModal({ userId }) {
             ) : (
               <ul className="space-y-2">
                 {comments.map((comment) => (
-                  <li key={comment.id} className="text-gray-700">
-                    {comment.text}
+                  <li
+                    key={comment.id}
+                    className="text-gray-700 flex items-center justify-between"
+                  >
+                    <span>{comment.text}</span>
+                    {comment.userId === 1 && ( //임의 아이디 1로 설정
+                      <div className="flex space-x-2">
+                        <button
+                          onClick={() => handleEditComment(comment.id)}
+                          className="text-sm text-blue-500 hover:underline"
+                        >
+                          수정
+                        </button>
+                        <button
+                          onClick={() => handleDeleteComment(comment.id)}
+                          className="text-sm text-red-500 hover:underline"
+                        >
+                          삭제
+                        </button>
+                      </div>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -124,13 +156,13 @@ function PostModal({ userId }) {
                 placeholder="무엇이 궁금하신가요? 댓글을 남겨주세요."
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
-                className="flex-1 border border-card p-2 rounded-l-sm  w-full"
+                className="flex-1 border border-card p-2 rounded-l-sm w-full"
               />
               <button
                 type="submit"
                 className="bg-orange-500 hover:bg-orange-600 text-white p-2 rounded-r-sm"
               >
-                <span class="material-symbols-outlined">library_add</span>
+                <span className="material-symbols-outlined">library_add</span>
               </button>
             </form>
           </div>

@@ -1,42 +1,40 @@
 import { create } from "zustand";
 
+// Zustand store 생성 함수 정의
 const useStore = create((set) => ({
-  posts: [], // 초기 게시물 상태
-
-  // 현재 활성화된 탭 상태
+  // 현재 활성화된 탭 상태, 기본값은 "all"
   activeTab: "all",
 
-  // 현재 표시할 컴포넌트 상태 ("postList", "createPost" 등)
+  // 상세보기 모달의 열림 상태를 나타내는 변수
+  isModalOpen: false,
+
+  // 게시물 작성 상태창 열림 상태 나타내는 변수
   currentComponent: "postList",
 
-  // 상세보기 모달 상태 및 선택된 게시물 데이터
-  isModalOpen: false,
+  // 선택된 게시물의 정보를 저장하는 변수
   selectedPost: null,
 
-  // 사용자 게시물 필터링 여부
+  // 사용자 게시물 필터링 상태
   filterUserPosts: false,
 
-  // 표시할 컴포넌트를 변경하는 함수
-  setComponent: (component) => {
-    console.log("Setting component:", component);
-    set((state) => {
-      if (state.currentComponent !== component) {
-        return { currentComponent: component };
-      }
-      return state;
-    });
-  },
-  // 활성화된 탭을 변경하는 함수
+  // 좋아요한 게시물 필터링 상태
+  filterLikedPosts: false,
+
+  // activeTab을 변경하는 함수
   setActiveTab: (tab) => set({ activeTab: tab }),
 
-  // 모달을 열고 선택된 게시물을 설정하는 함수
+  // 게시물 작성창 상태를 변경기능
+  setComponent: (component) => set({ currentComponent: component }),
+
+  // 상세보기 모달을 열고, 선택된 게시물 데이터를 설정하는 함수
   openModal: (post) => set({ isModalOpen: true, selectedPost: post }),
 
-  // 모달을 닫고 선택된 게시물을 초기화하는 함수
+  // 상세보기 모달을 닫고, 선택된 게시물 데이터를 초기화하는 함수
   closeModal: () => set({ isModalOpen: false, selectedPost: null }),
 
-  // 사용자 게시물 필터링 설정 함수
   setFilterUserPosts: (isUserPosts) => set({ filterUserPosts: isUserPosts }),
+  setFilterLikedPosts: (isLikedPosts) =>
+    set({ filterLikedPosts: isLikedPosts }), // 좋아요한 글 필터링 설정 함수
 }));
 
 export default useStore;

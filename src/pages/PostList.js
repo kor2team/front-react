@@ -1,140 +1,174 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import useStore from "../store/useStore";
-import { useEffect } from "react";
 
 function PostList({ userId }) {
+  // Zustand에서 모달 열기, 탭 상태, 필터링 관련 상태와 함수를 가져옴
   const {
-    posts, // Zustand의 posts 상태
-    openModal, // 게시물 클릭 시 모달을 여는 함수
-    activeTab, // 현재 활성화된 탭
-    setActiveTab, // 활성화할 탭 설정 함수
-    filterUserPosts, // 사용자 게시물 필터링 여부
-    setFilterUserPosts, // 사용자 게시물 필터링 설정 함수
-    setComponent, // 컴포넌트 변경 함수
+    openModal, // 모달을 열어 특정 게시물의 상세 정보를 표시하는 함수
+    activeTab, // 현재 활성화된 탭 상태 (전체글, 내가 쓴 글, 좋아요한 글)
+    setActiveTab, // 활성화된 탭을 설정하는 함수
+    filterUserPosts, // 내가 쓴 글만 보기 필터링 여부
+    setFilterUserPosts, // 내가 쓴 글만 보기 필터링 설정 함수
+    filterLikedPosts, // 좋아요한 글 필터링 여부
+    setFilterLikedPosts, // 좋아요한 글 필터링 설정 함수
   } = useStore();
 
+  const setComponent = useStore((state) => state.setComponent);
+
+  // 게시물 작성 버튼 클릭 시 호출되어 'createPost' 컴포넌트를 활성화하는 함수
   const handleCreatePost = () => {
     setComponent("createPost");
   };
 
-  // 무한 스크롤에서 다음 페이지 데이터를 가져오는 함수 (예시 데이터)
+  // 게시물 데이터를 가져오는 비동기 함수
   const fetchPosts = async ({ pageParam = 0 }) => {
+    // 샘플 데이터 생성 (pageParam에 따라 게시물 ID가 다름)
     const sampleData = {
       posts: [
         {
-          id: pageParam * 3 + 1, // 각 게시물의 ID가 중복됨
+          id: pageParam * 3 + 1,
           userId: 1,
           recipeName: `게시물 ${pageParam * 3 + 1}`,
           image: "https://via.placeholder.com/150",
-          ingredients: "돼지고기, 당근",
-          instructions: "10분간 구우세요 - 내가쓴글 조회용",
+          ingredients: "고기, 감자",
+          instructions: "이것은 임의의 설명입니다.",
+          likedByUser: pageParam % 2 === 0, // 짝수 페이지의 게시물은 좋아요한 것으로 표시
         },
         {
-          id: pageParam * 3 + 2, // 고유 ID 설정
+          id: pageParam * 3 + 1,
           userId: 2,
-          recipeName: `게시물 ${pageParam * 3 + 2}`,
+          recipeName: `게시물 ${pageParam * 3 + 1}`,
           image: "https://via.placeholder.com/150",
-          ingredients: "돼지고기, 당근",
-          instructions: "10분간 구우세요",
+          ingredients: "고기, 감자",
+          instructions: "이것은 임의의 설명입니다.",
+          likedByUser: pageParam % 2 === 0, // 짝수 페이지의 게시물은 좋아요한 것으로 표시
         },
         {
-          id: pageParam * 3 + 3, // 고유 ID 설정
+          id: pageParam * 3 + 1,
           userId: 3,
-          recipeName: `게시물 ${pageParam * 3 + 3}`,
+          recipeName: `게시물 ${pageParam * 3 + 1}`,
           image: "https://via.placeholder.com/150",
-          ingredients: "돼지고기, 당근",
-          instructions: "10분간 구우세요",
+          ingredients: "고기, 감자",
+          instructions: "이것은 임의의 설명입니다.",
+          likedByUser: pageParam % 2 === 0, // 짝수 페이지의 게시물은 좋아요한 것으로 표시
+        },
+        {
+          id: pageParam * 3 + 1,
+          userId: 1,
+          recipeName: `게시물2 ${pageParam * 3 + 1}`,
+          image: "https://via.placeholder.com/150",
+          ingredients: "고기, 감자2",
+          instructions: "이것은 임의의 설명입니다2.",
+          likedByUser: pageParam % 2 === 0, // 짝수 페이지의 게시물은 좋아요한 것으로 표시
         },
       ],
-      nextPage: pageParam < 4 ? pageParam + 1 : undefined,
+      nextPage: pageParam < 10 ? pageParam + 1 : undefined, // 페이지가 4 미만일 때 다음 페이지를 제공
     };
     return sampleData;
   };
 
-  // useInfiniteQuery 훅을 사용하여 무한 스크롤로 게시물을 가져옴
+  // useInfiniteQuery 훅을 사용하여 게시물을 무한 스크롤로 가져옴
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
-      queryKey: ["posts", activeTab],
-      queryFn: fetchPosts,
-      getNextPageParam: (lastPage) => lastPage.nextPage,
+      queryKey: ["posts", activeTab], // 쿼리 키로 게시물 데이터 캐싱 및 관리
+      queryFn: fetchPosts, // 게시물 데이터를 가져오는 함수
+      getNextPageParam: (lastPage) => lastPage.nextPage, // 다음 페이지의 파라미터를 가져오는 함수
     });
 
-  // Zustand의 posts 상태와 React Query에서 가져온 posts를 병합
-  const combinedPosts = [
-    ...posts,
-    ...(data?.pages.flatMap((page) => page.posts) || []),
-  ];
-
-  // 사용자 게시물 필터링을 적용하는 함수
-  const filteredPosts = filterUserPosts
-    ? combinedPosts.filter((post) => post.userId === 1)
-    : combinedPosts;
+  // 게시물을 필터링하는 함수
+  const filteredPosts = (posts) => {
+    if (filterUserPosts) {
+      return posts.filter((post) => post.userId === 1); // 내가 쓴 글 필터링 임의의 아이디 1로 설정
+    }
+    if (filterLikedPosts) {
+      return posts.filter((post) => post.likedByUser); // 좋아요한 글 필터링
+    }
+    return posts; // 필터링 조건이 없을 경우 전체 게시물 반환
+  };
 
   return (
     <>
-      {/* 탭 선택 버튼 */}
-      <div className="flex justify-center mb-5">
+      {/* 게시물 필터링 버튼 */}
+      <div className="flex flex-col sm:flex-row justify-center mb-5 ">
         <button
           onClick={() => {
             setFilterUserPosts(false);
-            setActiveTab("all");
+            setFilterLikedPosts(false);
+            setActiveTab("all"); // 전체글 보기 탭 활성화
           }}
           className={`px-4 py-2 ${
-            !filterUserPosts ? "bg-orange-500 text-white" : "bg-gray-200"
-          } rounded-l border border-card`}
+            activeTab === "all" ? "bg-orange-500 text-white" : "bg-gray-200"
+          } rounded-l sm:rounded-none sm:rounded-l border border-card w-full sm:w-auto`}
         >
           전체글 보기
         </button>
         <button
           onClick={() => {
-            setFilterUserPosts(true);
-            setActiveTab("user");
+            setFilterUserPosts(true); // 내가 쓴 글 필터링 활성화
+            setFilterLikedPosts(false);
+            setActiveTab("user"); // 내가 쓴 글 보기 탭 활성화
           }}
           className={`px-4 py-2 ${
-            filterUserPosts ? "bg-orange-500 text-white" : "bg-gray-200"
-          } rounded-r border border-card`}
+            activeTab === "user" ? "bg-orange-500 text-white" : "bg-gray-200"
+          } border border-card w-full sm:w-auto`}
         >
-          내가 쓴글 보기
+          내가 쓴 글 보기
+        </button>
+        <button
+          onClick={() => {
+            setFilterUserPosts(false);
+            setFilterLikedPosts(true); // 좋아요한 글 필터링 활성화
+            setActiveTab("liked"); // 좋아요한 글 보기 탭 활성화
+          }}
+          className={`px-4 py-2 ${
+            activeTab === "liked" ? "bg-orange-500 text-white" : "bg-gray-200"
+          } rounded-r sm:rounded-none sm:rounded-r border border-card w-full sm:w-auto`}
+        >
+          좋아요한 글 보기
         </button>
       </div>
 
-      {/* 게시물 목록 */}
-      <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-3.5 overflow-y-auto">
-        {filteredPosts.map((post) => (
-          <div
-            key={post.id}
-            className="bg-white p-4 border border-card rounded-md shadow-card cursor-pointer"
-            onClick={() => openModal(post)}
-          >
-            <img
-              src={post.image}
-              alt={post.recipeName}
-              className="w-full h-32 object-cover rounded-md"
-            />
-            <h3 className="text-lg font-semibold mt-2 text-gray-800">
-              {post.recipeName}
-            </h3>
-            <p className="text-gray-600 mt-1">{post.description}</p>
-          </div>
-        ))}
+      {/* 게시물 리스트 표시 */}
+      <div className="p-4 grid grid-cols-2 gap-4 w-full  h-4/5 overflow-y-auto">
+        {data?.pages.map((page) =>
+          filteredPosts(page.posts).map((post) => (
+            <div
+              key={post.id}
+              className="bg-white p-4 border border-card rounded-md shadow-card cursor-pointer"
+              onClick={() => openModal(post)} // 클릭 시 모달 열림
+            >
+              <img
+                src={post.image}
+                alt={post.recipeName}
+                className="w-full h-32 object-cover rounded-md"
+              />
+              <h3 className="text-lg font-semibold mt-2 text-gray-800">
+                {post.recipeName}
+              </h3>
+              <p className="text-gray-600 mt-1">{post.description}</p>
+            </div>
+          ))
+        )}
       </div>
-      <div>
-        {hasNextPage && (
+
+      {/* 더보기 버튼 (다음 페이지 로드) */}
+      {hasNextPage && (
+        <div className="flex justify-center mt-5">
           <button
             onClick={fetchNextPage}
             disabled={isFetchingNextPage}
-            className="text-white bg-orange-500 px-6 py-3 mt-5 rounded shadow-card w-3/4 mx-auto flex justify-center items-center"
+            className="text-white bg-orange-500 w-full max-w-md px-4 py-2 rounded shadow-card"
           >
             {isFetchingNextPage ? (
-              "로딩중"
+              "로딩중" // 로딩 중일 때 표시
             ) : (
               <span className="material-symbols-outlined">add</span>
             )}
           </button>
-        )}
-      </div>
+        </div>
+      )}
 
-      {/* 게시물 작성 버튼 */}
+      {/* 게시물 작성 버튼 (우하단 고정) */}
       <button
         onClick={handleCreatePost}
         className="fixed bottom-4 right-4 bg-orange-500 text-white p-4 rounded-full shadow-lg hover:bg-orange-600"

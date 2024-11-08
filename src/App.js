@@ -37,8 +37,8 @@ function App() {
   };
 
   const currentComponent = useStore((state) => state.currentComponent);
-
   const setComponent = useStore((state) => state.setComponent);
+
   const handlePostList = () => {
     setComponent("postList");
   };
@@ -46,107 +46,117 @@ function App() {
   return (
     <Router>
       <QueryClientProvider client={queryClient}>
-        <div className="max-w-3xl mx-auto p-5">
-          {/* Header */}
-          <div className="flex justify-between items-center p-5 border-b-2 border-orange-500">
-            <div className="flex items-center">
-              <Link to="/" className="flex items-center">
-                <img
-                  src={logo}
-                  alt="Logo"
-                  className="max-w-12 h-auto mr-2 rounded-full"
-                />
-                <span
-                  className="text-xl font-semibold text-orange-500"
-                  style={{
-                    fontFamily: "'Nanum Pen Script', cursive", // Nanum Pen Script 폰트 적용
-                    letterSpacing: "4px", // 글자 간격을 넓혀서 날려쓰는 느낌
-                    fontWeight: "normal", // 글자 굵기 조정
-                    fontSize: "2rem",
-                  }}
-                >
-                  맛남의 장
-                </span>
-              </Link>
-            </div>
-            <div className="flex justify-end">
-              {loggedInEmail ? (
-                <>
-                  <Link
-                    to="/profile"
-                    className="mr-4 text-orange-500 hover:text-blue-500"
+        <div className="flex flex-col items-center">
+          <div className="max-w-3xl mx-auto w-full flex flex-col flex-grow">
+            {/* Header */}
+            <header className="flex justify-between items-center p-5 border-b-2 border-orange-500">
+              <div className="flex items-center">
+                <Link to="/" className="flex items-center">
+                  <img
+                    src={logo}
+                    alt="Logo"
+                    className="max-w-12 h-auto mr-2 rounded-full"
+                  />
+                  <span
+                    className="text-xl font-semibold text-orange-500"
+                    style={{
+                      fontFamily: "'Nanum Pen Script', cursive", // Nanum Pen Script 폰트 적용
+                      letterSpacing: "4px", // 글자 간격을 넓혀서 날려쓰는 느낌
+                      fontWeight: "normal", // 글자 굵기 조정
+                      fontSize: "2rem",
+                    }}
                   >
-                    {loggedInEmail}
-                  </Link>
-                  <button
-                    onClick={handleLogout}
-                    className="bg-orange-500 text-white py-2 px-4 rounded hover:bg-blue-500 material-symbols-outlined"
-                  >
-                    logout
-                  </button>
-                </>
-              ) : (
-                <Link
-                  to="/login"
-                  className="text-orange-500 hover:text-blue-500"
-                >
-                  로그인
+                    맛남의 장
+                  </span>
                 </Link>
-              )}
-            </div>
+              </div>
+              <div className="flex justify-end">
+                {loggedInEmail ? (
+                  <>
+                    <Link
+                      to="/profile"
+                      className="mr-4 text-orange-500 hover:text-blue-500"
+                    >
+                      {loggedInEmail}
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="bg-orange-500 text-white py-2 px-4 rounded hover:bg-blue-500 material-symbols-outlined"
+                    >
+                      logout
+                    </button>
+                  </>
+                ) : (
+                  <Link
+                    to="/login"
+                    className="text-orange-500 hover:text-blue-500"
+                  >
+                    로그인
+                  </Link>
+                )}
+              </div>
+            </header>
+
+            {/* Navigation Bar */}
+            <nav className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-x-4 sm:space-y-0 border-b border-gray-300 py-4">
+              <Link
+                to="/"
+                className="px-4 py-2 text-orange-500 border border-orange-500 rounded hover:text-blue-500 hover:border-blue-500"
+              >
+                레시피
+              </Link>
+              <Link
+                to="/search"
+                className="px-4 py-2 text-orange-500 border border-orange-500 rounded hover:text-blue-500 hover:border-blue-500"
+              >
+                검색
+              </Link>
+              <Link
+                to="/board"
+                className="px-4 py-2 text-orange-500 border border-orange-500 rounded hover:text-blue-500 hover:border-blue-500"
+                onClick={handlePostList}
+              >
+                게시물
+              </Link>
+            </nav>
+
+            {/* Main Content */}
+            <main className="flex-grow p-5 bg-gray-100">
+              <Routes>
+                <Route path="/" element={<MainPage />} />
+                <Route path="/search" element={<SearchPage />} />
+                <Route
+                  path="/login"
+                  element={<LoginPage onLogin={handleLogin} />}
+                />
+                <Route
+                  path="/board"
+                  element={
+                    <div>
+                      {currentComponent === "postList" && <PostList />}
+                      {currentComponent === "createPost" && <CreatePost />}
+                    </div>
+                  }
+                />
+                <Route
+                  path="/profile"
+                  element={
+                    <ProfilePage
+                      email={loggedInEmail}
+                      onLogout={handleLogout}
+                    />
+                  }
+                />
+              </Routes>
+
+              <PostModal />
+            </main>
+
+            {/* Footer */}
+            <footer className="border-t border-gray-300">
+              <Footer />
+            </footer>
           </div>
-
-          {/* Navigation Bar */}
-          <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-x-4 sm:space-y-0 border-b border-gray-300 py-4">
-            <Link
-              to="/"
-              className="px-4 py-2 text-orange-500 border border-orange-500 rounded hover:text-blue-500 hover:border-blue-500"
-            >
-              레시피
-            </Link>
-            <Link
-              to="/search"
-              className="px-4 py-2 text-orange-500 border border-orange-500 rounded hover:text-blue-500 hover:border-blue-500"
-            >
-              검색
-            </Link>
-            <Link
-              to="/board"
-              className="px-4 py-2 text-orange-500 border border-orange-500 rounded hover:text-blue-500 hover:border-blue-500"
-              onClick={handlePostList}
-            >
-              게시물
-            </Link>
-          </div>
-
-          {/* Main Content */}
-          <Routes>
-            <Route path="/" element={<MainPage />} />
-            <Route path="/search" element={<SearchPage />} />
-            <Route
-              path="/login"
-              element={<LoginPage onLogin={handleLogin} />}
-            />
-            <Route
-              path="/board"
-              element={
-                <div>
-                  {currentComponent === "postList" && <PostList />}
-                  {currentComponent === "createPost" && <CreatePost />}
-                </div>
-              }
-            />
-            <Route
-              path="/profile"
-              element={
-                <ProfilePage email={loggedInEmail} onLogout={handleLogout} />
-              }
-            />
-          </Routes>
-
-          <PostModal />
-          <hr />
-          <Footer />
         </div>
       </QueryClientProvider>
     </Router>
