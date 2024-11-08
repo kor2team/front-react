@@ -33,32 +33,8 @@ const useStore = create((set) => ({
   // 로그인 상태를 설정하는 함수
   setIsLoggedIn: (status) => set({ isLoggedIn: status }),
 
-  // // 오류 메시지 상태를 설정하는 함수
-  // setErrorMessage: (message) => set({ errorMessage: message }),
-
-  // // 로그인 처리 함수 - 이메일과 비밀번호를 확인하여 로그인 상태와 오류 메시지를 업데이트
-  // login: (email, password) => {
-  //   if (email === "test@example.com" && password === "password") {
-  //     // 로그인 성공 시 로그인 상태 true 및 오류 메시지 초기화
-  //     set({ isLoggedIn: true, errorMessage: "" });
-  //     alert("로그인 성공!");
-  //   } else {
-  //     // 로그인 실패 시 오류 메시지 설정
-  //     set({ errorMessage: "이메일 또는 비밀번호가 올바르지 않습니다." });
-  //   }
-  // },
-
-  // // 회원가입 처리 함수 - 비밀번호 확인 및 회원가입 상태 업데이트
-  // signup: (email, password, confirmPassword) => {
-  //   if (password !== confirmPassword) {
-  //     // 비밀번호 불일치 시 오류 메시지 설정
-  //     set({ errorMessage: "비밀번호가 일치하지 않습니다." });
-  //     return;
-  //   }
-  //   // 회원가입 성공 시 로그인 상태 true 및 오류 메시지 초기화
-  //   set({ isLoggedIn: true, errorMessage: "" });
-  //   alert("회원가입 성공!");
-  // },
+  // toggleLogin 함수 추가
+  toggleLogin: () => set((state) => ({ isLoggedIn: !state.isLoggedIn })),
 }));
 
 export default useStore;

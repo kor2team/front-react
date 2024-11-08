@@ -2,7 +2,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import useStore from "../store/useStore";
 import { useNavigate } from "react-router-dom";
 
-function PostList({ userId }) {
+function PostList() {
   const navigate = useNavigate();
 
   // Zustand에서 필요한 상태와 함수 가져오기
@@ -39,6 +39,42 @@ function PostList({ userId }) {
         {
           id: pageParam * 3 + 1,
           userId: 1,
+          recipeName: `게시물 ${pageParam * 3 + 1}`,
+          image: "https://via.placeholder.com/150",
+          ingredients: "고기, 감자",
+          instructions: "이것은 임의의 설명입니다.",
+          likedByUser: pageParam % 2 === 0, // 짝수 페이지의 게시물은 좋아요한 것으로 표시
+        },
+        {
+          id: pageParam * 3 + 1,
+          userId: 1,
+          recipeName: `게시물 ${pageParam * 3 + 1}`,
+          image: "https://via.placeholder.com/150",
+          ingredients: "고기, 감자",
+          instructions: "이것은 임의의 설명입니다.",
+          likedByUser: pageParam % 2 === 0, // 짝수 페이지의 게시물은 좋아요한 것으로 표시
+        },
+        {
+          id: pageParam * 3 + 1,
+          userId: 2,
+          recipeName: `게시물 ${pageParam * 3 + 1}`,
+          image: "https://via.placeholder.com/150",
+          ingredients: "고기, 감자",
+          instructions: "이것은 임의의 설명입니다.",
+          likedByUser: pageParam % 2 === 0, // 짝수 페이지의 게시물은 좋아요한 것으로 표시
+        },
+        {
+          id: pageParam * 3 + 1,
+          userId: 3,
+          recipeName: `게시물 ${pageParam * 3 + 1}`,
+          image: "https://via.placeholder.com/150",
+          ingredients: "고기, 감자",
+          instructions: "이것은 임의의 설명입니다.",
+          likedByUser: pageParam % 2 === 0, // 짝수 페이지의 게시물은 좋아요한 것으로 표시
+        },
+        {
+          id: pageParam * 3 + 1,
+          userId: 4,
           recipeName: `게시물 ${pageParam * 3 + 1}`,
           image: "https://via.placeholder.com/150",
           ingredients: "고기, 감자",
@@ -159,7 +195,7 @@ function PostList({ userId }) {
       >
         게시물 작성
       </button>
-      {/* 로그인 상태 토글 버튼 (테스트용) */}
+      {/* 로그인 상태 토글 버튼 (테스트용) 좌측에 생성*/}
       <button
         onClick={toggleLogin} // 버튼 클릭 시 toggleLogin 함수 호출
         className="fixed bottom-4 left-4 bg-blue-500 text-white px-4 py-2 mb-4 rounded"
