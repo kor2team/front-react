@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import MainPage from "./components/MainPage";
 import SearchPage from "./components/SearchPage";
@@ -15,23 +15,26 @@ import Footer from "./layout/Footer";
 const queryClient = new QueryClient();
 
 function App() {
-  const [loggedInEmail, setLoggedInEmail] = useState(""); // 로그인한 이메일 상태
+  const { isLogin, loggedInEmail, setIsLogin, setLoggedInEmail } = useStore();
 
   useEffect(() => {
     const email = localStorage.getItem("loggedInEmail");
     if (email) {
       setLoggedInEmail(email);
+      setIsLogin(true); // 로그인 상태로 설정
     }
-  }, []);
+  }, [setLoggedInEmail, setIsLogin]);
 
   const handleLogin = (email) => {
     setLoggedInEmail(email);
+    setIsLogin(true);
     localStorage.setItem("loggedInEmail", email);
     window.location.href = "/";
   };
 
   const handleLogout = () => {
     setLoggedInEmail("");
+    setIsLogin(false);
     localStorage.removeItem("loggedInEmail");
     window.location.href = "/";
   };
@@ -71,7 +74,7 @@ function App() {
                 </Link>
               </div>
               <div className="flex justify-end">
-                {loggedInEmail ? (
+                {isLogin ? (
                   <>
                     <Link
                       to="/profile"
