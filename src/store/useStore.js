@@ -8,7 +8,7 @@ const useStore = create((set) => ({
   selectedPost: null, // 선택된 게시물의 정보를 저장하는 변수
   filterUserPosts: false, // 사용자가 작성한 게시물만 필터링하는 상태
   filterLikedPosts: false, // 사용자가 좋아요한 게시물만 필터링하는 상태
-  isLoggedIn: false, // 로그인 여부를 나타내는 상태, 기본값은 로그아웃 상태인 false
+  isLogin: false, // 로그인 여부를 나타내는 상태, 기본값은 로그아웃 상태인 false
   errorMessage: "", // 오류 메시지를 저장하는 상태, 기본값은 빈 문자열
 
   // activeTab을 변경하는 함수
@@ -31,10 +31,10 @@ const useStore = create((set) => ({
     set({ filterLikedPosts: isLikedPosts }),
 
   // 로그인 상태를 설정하는 함수
-  setIsLoggedIn: (status) => set({ isLoggedIn: status }),
+  setIsLogin: (status) => set({ isLogin: status }),
 
-  // toggleLogin 함수 추가
-  toggleLogin: () => set((state) => ({ isLoggedIn: !state.isLoggedIn })),
+  // 로그인 상태를 토글하는 함수
+  toggleLogin: () => set((state) => ({ isLogin: !state.isLogin })),
 }));
 
 export default useStore;

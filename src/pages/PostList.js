@@ -14,14 +14,14 @@ function PostList() {
     setFilterUserPosts, // 내가 쓴 글 필터링 여부 설정 함수
     filterLikedPosts, // 좋아요한 글 필터링 여부
     setFilterLikedPosts, // 좋아요한 글 필터링 여부 설정 함수
-    isLoggedIn, // 로그인 상태 여부
+    isLogin, // 로그인 상태 여부
     setComponent, // 현재 활성 컴포넌트를 변경하는 함수
     toggleLogin, // 로그인 상태를 토글하는 함수 (테스트용)
   } = useStore();
 
   // 게시물 작성 버튼 클릭 시 호출되는 함수
   const handleCreatePost = () => {
-    if (!isLoggedIn) {
+    if (!isLogin) {
       // 로그인 상태가 아니면 경고 메시지를 표시하고 로그인 페이지로 이동
       alert("로그인이 필요한 서비스입니다");
       navigate("/login");
@@ -200,7 +200,7 @@ function PostList() {
         onClick={toggleLogin} // 버튼 클릭 시 toggleLogin 함수 호출
         className="fixed bottom-4 left-4 bg-blue-500 text-white px-4 py-2 mb-4 rounded"
       >
-        {isLoggedIn ? "로그아웃" : "로그인"}
+        {isLogin ? "로그아웃" : "로그인"}
       </button>
     </>
   );
