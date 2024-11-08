@@ -1,6 +1,5 @@
 import { create } from "zustand";
 
-// Zustand store 생성 함수 정의
 const useStore = create((set) => ({
   activeTab: "all", // 현재 활성화된 탭의 상태를 저장하는 변수, 기본값은 'all'
   isModalOpen: false, // 상세보기 모달의 열림 상태를 나타내는 변수
@@ -10,6 +9,7 @@ const useStore = create((set) => ({
   filterLikedPosts: false, // 사용자가 좋아요한 게시물만 필터링하는 상태
   isLogin: false, // 로그인 여부를 나타내는 상태, 기본값은 로그아웃 상태인 false
   errorMessage: "", // 오류 메시지를 저장하는 상태, 기본값은 빈 문자열
+  loggedInEmail: "", // 로그인한 이메일 상태
 
   // activeTab을 변경하는 함수
   setActiveTab: (tab) => set({ activeTab: tab }),
@@ -35,6 +35,9 @@ const useStore = create((set) => ({
 
   // 로그인 상태를 토글하는 함수
   toggleLogin: () => set((state) => ({ isLogin: !state.isLogin })),
+
+  // 이메일 설정 함수
+  setLoggedInEmail: (email) => set({ loggedInEmail: email }),
 }));
 
 export default useStore;

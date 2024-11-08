@@ -16,7 +16,6 @@ function PostList() {
     setFilterLikedPosts, // 좋아요한 글 필터링 여부 설정 함수
     isLogin, // 로그인 상태 여부
     setComponent, // 현재 활성 컴포넌트를 변경하는 함수
-    toggleLogin, // 로그인 상태를 토글하는 함수 (테스트용)
   } = useStore();
 
   // 게시물 작성 버튼 클릭 시 호출되는 함수
@@ -194,13 +193,6 @@ function PostList() {
         className="fixed bottom-4 right-4 bg-orange-500 text-white p-4 rounded-full shadow-lg hover:bg-orange-600"
       >
         게시물 작성
-      </button>
-      {/* 로그인 상태 토글 버튼 (테스트용) 좌측에 생성*/}
-      <button
-        onClick={toggleLogin} // 버튼 클릭 시 toggleLogin 함수 호출
-        className="fixed bottom-4 left-4 bg-blue-500 text-white px-4 py-2 mb-4 rounded"
-      >
-        {isLogin ? "로그아웃" : "로그인"}
       </button>
     </>
   );
