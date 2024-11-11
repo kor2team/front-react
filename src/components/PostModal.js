@@ -34,9 +34,14 @@ function PostModal({ userId }) {
 
   // 좋아요 버튼 클릭 핸들러
   const handleLike = () => {
-    if (!likedByUser) {
+    if (likedByUser) {
+      // 이미 좋아요를 눌렀다면 좋아요 취소
+      setNewLike(newLike - 1); // 좋아요 수 감소
+      setLikedByUser(false); // 좋아요 취소 상태로 변경
+    } else {
+      // 좋아요를 누르지 않았다면 좋아요 추가
       setNewLike(newLike + 1); // 좋아요 수 증가
-      setLikedByUser(true); // 좋아요 버튼이 눌렸음을 상태로 저장
+      setLikedByUser(true); // 좋아요 상태로 변경
     }
   };
 
