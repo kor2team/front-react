@@ -11,7 +11,8 @@ function CreatePost() {
   };
 
   // 레시피 작성 상태 관리
-  const [recipeName, setRecipeName] = useState(""); // 레시피명 상태
+  const [title, setTitle] = useState(""); // 레시피명 상태
+  const [recipeDescription, setRecipeDescription] = useState(""); //레시피 간략소개
   const [image, setImage] = useState(null); // 이미지 상태
   const [ingredients, setIngredients] = useState(""); // 재료 상태
   const [instructions, setInstructions] = useState(""); // 조리 과정 상태
@@ -27,16 +28,34 @@ function CreatePost() {
 
       {/* 레시피명 입력 */}
       <div className="mb-4">
-        <label htmlFor="recipeName" className="text-orange-500 font-bold">
+        <label htmlFor="title" className="text-orange-500 font-bold">
           레시피명
         </label>
         <input
-          id="recipeName"
+          id="title"
           type="text"
-          value={recipeName}
-          onChange={(e) => setRecipeName(e.target.value)}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
           className="w-full p-2 rounded-sm mt-2 border border-orange-500 bg-white"
-          placeholder="레시피명을 입력하세요"
+          placeholder="레시피명을 입력하세요."
+        />
+      </div>
+
+      {/* 간략 소개 */}
+      <div className="mb-4">
+        <label
+          htmlFor="recipeDescription"
+          className="text-orange-500 font-bold"
+        >
+          레시피 간략소개
+        </label>
+        <input
+          id="recipeDescription"
+          type="text"
+          value={recipeDescription}
+          onChange={(e) => setRecipeDescription(e.target.value)}
+          className="w-full p-2 rounded-sm mt-2 border border-orange-500 bg-white"
+          placeholder="레시피에 대해 간략하게 소개해 주세요."
         />
       </div>
 

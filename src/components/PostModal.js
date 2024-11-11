@@ -74,21 +74,28 @@ function PostModal({ userId }) {
 
         <div className="flex flex-row">
           {/* 왼쪽: 이미지 */}
-          <div className="w-2/3">
+          <div className="w-3/5">
             <img
               src={selectedPost.image}
-              alt={selectedPost.recipeName}
+              alt={selectedPost.title}
               className="w-full rounded-md shadow-card"
             />
           </div>
 
           {/* 오른쪽: 제목, 설명, 좋아요 및 댓글 */}
-          <div className="w-1/3 p-4">
+          <div className="w-2/5 p-4">
             <h2 className="text-xl font-bold mb-4 text-gray-800  text-center">
-              {selectedPost.recipeName}
+              {selectedPost.title}
             </h2>
-            <p className="text-gray-700">{selectedPost.ingredients}</p>
-            <p className="text-gray-700">{selectedPost.instructions}</p>
+            <p className="text-gray-700 mb-3">
+              소개 : {selectedPost.recipeDescription}
+            </p>
+            <p className="text-gray-700 mb-3">
+              주 재료 : {selectedPost.ingredients}
+            </p>
+            <p className="text-gray-700 mb-3">
+              조리방법 : {selectedPost.instructions}
+            </p>
 
             {/* 좋아요 및 댓글 버튼 */}
             <div className="mt-4 flex items-center space-x-2">
