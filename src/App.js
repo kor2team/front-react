@@ -66,7 +66,7 @@ function App() {
                       fontFamily: "'Nanum Pen Script', cursive", // Nanum Pen Script 폰트 적용
                       letterSpacing: "4px", // 글자 간격을 넓혀서 날려쓰는 느낌
                       fontWeight: "normal", // 글자 굵기 조정
-                      fontSize: "2rem",
+                      fontSize: "1.7rem",
                     }}
                   >
                     맛남의 장

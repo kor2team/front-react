@@ -1,6 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import useStore from "../store/useStore";
 import { useNavigate } from "react-router-dom";
+import { useRef, useState } from "react";
 
 function PostList() {
   const navigate = useNavigate();
@@ -18,6 +19,10 @@ function PostList() {
     setComponent, // 현재 활성 컴포넌트를 변경하는 함수
   } = useStore();
 
+  // 검색어 상태 관리
+  const [searchQuery, setSearchQuery] = useState("");
+  const inputRef = useRef(null); // 입력창 참조
+
   // 게시물 작성 버튼 클릭 시 호출되는 함수
   const handleCreatePost = () => {
     if (!isLogin) {
@@ -30,58 +35,32 @@ function PostList() {
     }
   };
 
-  // 게시물 데이터를 가져오는 비동기 함수
+  // 게시물 데이터 가져오는 함수 (임의의 데이터 생성)
   const fetchPosts = async ({ pageParam = 0 }) => {
-    // 임의의 샘플 데이터 생성
     const sampleData = {
       posts: [
         {
           id: pageParam * 3 + 1,
-          userId: 1,
-          recipeName: `게시물 ${pageParam * 3 + 1}`,
+          userId: "test@example.com",
+          title: `고기감자조림 ${pageParam * 3 + 1}`,
           image: "https://via.placeholder.com/150",
+          recipeDescription: "고기와 감자가 잘 어울리는 메뉴.",
           ingredients: "고기, 감자",
-          instructions: "이것은 임의의 설명입니다.",
-          likedByUser: pageParam % 2 === 0, // 짝수 페이지의 게시물은 좋아요한 것으로 표시
+          instructions: "1.고기를 준비합니다, 2.감자를 조립니다.",
+          likedByUser: pageParam % 2 === 0,
         },
         {
-          id: pageParam * 3 + 1,
-          userId: 1,
-          recipeName: `게시물 ${pageParam * 3 + 1}`,
+          id: pageParam * 3 + 2,
+          userId: "test2@example.com",
+          title: `게시물 ${pageParam * 3 + 2}`,
           image: "https://via.placeholder.com/150",
+          recipeDescription: "고기와 감자가 잘 어울리는 메뉴.",
           ingredients: "고기, 감자",
           instructions: "이것은 임의의 설명입니다.",
-          likedByUser: pageParam % 2 === 0, // 짝수 페이지의 게시물은 좋아요한 것으로 표시
-        },
-        {
-          id: pageParam * 3 + 1,
-          userId: 2,
-          recipeName: `게시물 ${pageParam * 3 + 1}`,
-          image: "https://via.placeholder.com/150",
-          ingredients: "고기, 감자",
-          instructions: "이것은 임의의 설명입니다.",
-          likedByUser: pageParam % 2 === 0, // 짝수 페이지의 게시물은 좋아요한 것으로 표시
-        },
-        {
-          id: pageParam * 3 + 1,
-          userId: 3,
-          recipeName: `게시물 ${pageParam * 3 + 1}`,
-          image: "https://via.placeholder.com/150",
-          ingredients: "고기, 감자",
-          instructions: "이것은 임의의 설명입니다.",
-          likedByUser: pageParam % 2 === 0, // 짝수 페이지의 게시물은 좋아요한 것으로 표시
-        },
-        {
-          id: pageParam * 3 + 1,
-          userId: 4,
-          recipeName: `게시물 ${pageParam * 3 + 1}`,
-          image: "https://via.placeholder.com/150",
-          ingredients: "고기, 감자",
-          instructions: "이것은 임의의 설명입니다.",
-          likedByUser: pageParam % 2 === 0, // 짝수 페이지의 게시물은 좋아요한 것으로 표시
+          likedByUser: pageParam % 2 === 0,
         },
       ],
-      nextPage: pageParam < 10 ? pageParam + 1 : undefined, // 다음 페이지가 있는 경우 pageParam + 1 반환
+      nextPage: pageParam < 10 ? pageParam + 1 : undefined,
     };
     return sampleData;
   };
@@ -94,19 +73,50 @@ function PostList() {
       getNextPageParam: (lastPage) => lastPage.nextPage, // 다음 페이지 파라미터 설정
     });
 
-  // 게시물을 필터링하는 함수
+  // 게시물 필터링 함수
   const filteredPosts = (posts) => {
+    let filtered = posts;
+
     if (filterUserPosts) {
-      return posts.filter((post) => post.userId === 1); // 내가 쓴 글만 필터링 (임의로 userId 1 설정)
+      filtered = filtered.filter((post) => post.userId === "test@example.com");
     }
     if (filterLikedPosts) {
-      return posts.filter((post) => post.likedByUser); // 좋아요한 글만 필터링
+      filtered = filtered.filter((post) => post.likedByUser);
     }
-    return posts; // 필터링 조건이 없을 경우 전체 게시물 반환
+    if (searchQuery) {
+      filtered = filtered.filter((post) =>
+        post.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    return filtered;
+  };
+
+  // 검색 아이콘 클릭 시 입력창 포커스
+  const handleSearchIconClick = () => {
+    inputRef.current.focus();
   };
 
   return (
     <>
+      {/* 검색 입력 박스 */}
+      <div className="flex items-center justify-center">
+        <input
+          type="text"
+          placeholder="레시피를 검색하세요..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          ref={inputRef}
+          className="ml-6 mb-5 w-72 h-10 p-2 border-2 border-orange-500 rounded-full"
+        />
+        <span
+          className="material-symbols-outlined cursor-pointer ml-2"
+          onClick={handleSearchIconClick}
+        >
+          search
+        </span>
+      </div>
+
       {/* 게시물 필터링 버튼 */}
       <div className="flex flex-row justify-center mb-5">
         <button
@@ -117,7 +127,7 @@ function PostList() {
           }}
           className={`px-4 py-2 ${
             activeTab === "all" ? "bg-orange-500 text-white" : "bg-gray-200"
-          } rounded-l sm:rounded-none sm:rounded-l border border-card w-1/4 text-center`}
+          } rounded-md border border-card w-1/4 text-center`}
         >
           <div className="flex flex-col items-center">
             <span>전체 글</span>
@@ -132,7 +142,7 @@ function PostList() {
           }}
           className={`px-4 py-2 ${
             activeTab === "user" ? "bg-orange-500 text-white" : "bg-gray-200"
-          } border border-card w-1/4 text-center`}
+          } border border-card w-1/4 text-center rounded-md`}
         >
           <div className="flex flex-col items-center">
             <span>내가 쓴</span>
@@ -147,7 +157,7 @@ function PostList() {
           }}
           className={`px-4 py-2 ${
             activeTab === "liked" ? "bg-orange-500 text-white" : "bg-gray-200"
-          } rounded-r sm:rounded-none sm:rounded-r border border-card w-1/4 text-center`}
+          } rounded-md border border-card w-1/4 text-center`}
         >
           <div className="flex flex-col items-center">
             <span>좋아요한</span>
@@ -163,17 +173,17 @@ function PostList() {
             <div
               key={post.id}
               className="bg-white p-4 border border-card rounded-md shadow-card cursor-pointer"
-              onClick={() => openModal(post)} // 게시물 클릭 시 모달 열기
+              onClick={() => openModal(post)}
             >
               <img
                 src={post.image}
-                alt={post.recipeName}
+                alt={post.title}
                 className="w-full h-32 object-cover rounded-md"
               />
               <h3 className="text-lg font-semibold mt-2 text-gray-800 text-center">
-                {post.recipeName}
+                {post.title}
               </h3>
-              <p className="text-gray-600 mt-1">{post.description}</p>
+              <p className="text-gray-600 mt-1">{post.recipeDescription}</p>
             </div>
           ))
         )}

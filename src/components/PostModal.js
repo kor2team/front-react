@@ -92,8 +92,15 @@ function PostModal({ userId }) {
             <h2 className="text-xl font-bold mb-4 text-gray-800  text-center">
               {selectedPost.recipeName}
             </h2>
-            <p className="text-gray-700">{selectedPost.ingredients}</p>
-            <p className="text-gray-700">{selectedPost.instructions}</p>
+            <p className="text-gray-700 mb-3">
+              소개 : {selectedPost.recipeDescription}
+            </p>
+            <p className="text-gray-700 mb-3">
+              주 재료 : {selectedPost.ingredients}
+            </p>
+            <p className="text-gray-700 mb-3">
+              조리방법 : {selectedPost.instructions}
+            </p>
 
             {/* 좋아요 및 댓글 버튼 */}
             <div className="mt-4 flex items-center space-x-2">
@@ -130,7 +137,7 @@ function PostModal({ userId }) {
                     className="text-gray-700 flex items-center justify-between"
                   >
                     <span>{comment.text}</span>
-                    {comment.userId === 1 && ( //임의 아이디 1로 설정
+                    {comment.userId === "test@example.com" && (
                       <div className="flex space-x-2">
                         <button
                           onClick={() => handleEditComment(comment.id)}
