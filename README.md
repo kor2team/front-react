@@ -25,15 +25,17 @@ React
 
 ### front 기능 정리
 
-1. 레시피(/) <br>
+1. 레시피(/) : MainPage<br>
    레시피 목록을 보여주고 레시피 박스를 click하면 modal로 [이미지,제목,재료,조리방법]을 알려줌
    <br>
+   => 레시피설명 추가필요<br>
 
-2. 검색(/search)<br>
+2. 검색(/search) : SearchPage<br>
    재료, 조리방식 별로 check박스 modal을 사용해서 레시피를 나열해주고 click 시 레시피 정보 modal창이 뜸
    <br>
+   => modal 통일 필요<br>
 
-3. 게시물(/board)<br>
+3. 게시물(/board) : PostList<br>
    레시피 이름으로 검색이 가능하고, 전체 글 보기에서 레시피 박스를 click하면 modal로 레시피 정보[이미지,제목,레시피설명,재료,조리방법]을 알려줌
    <br>
    게시물 수정 button을 누르면 레시피 수정 페이지로 이동 / 삭제 button 아직 구현 안함
@@ -46,20 +48,21 @@ React
    <br>
    게시물 작성 button을 누르면 레시피 작성 페이지로 이동
    <br>
+   modal component : PostModal
 
-4. 레시피 작성 <br>
+4. 레시피 작성 : CreatePost<br>
    레시피명, 레시피 간략소개, 이미지 첨부, 재료, 조리 과정 작성 후 `저장하기`로 저장하고 돌아가기, `돌아가기`로 저장 안하고 돌아가기
    <br>
 
-5. 레시피 수정<br>
+5. 레시피 수정 : UpdatePost<br>
    작성 페이지와 동일, 원래 있던 레시피 정보 띄워줌
    <br>
 
-6. 개인정보(/profile)<br>
+6. 개인정보(/profile) : ProfilePage<br>
    이메일 정보, 비밀번호 변경, 로그아웃 기능
    <br>
 
-7. 로그인(login)<br>
+7. 로그인(login) : LoginPage<br>
    이메일, 비밀번호를 사용하여 로그인
    <br>
    `회원가입` : 이메일, 비밀번호, 비밀번호 확인, 닉네임을 입력하여 회원가입<br>
