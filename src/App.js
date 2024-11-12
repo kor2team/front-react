@@ -11,11 +11,13 @@ import useStore from "./store/useStore";
 import CreatePost from "./components/CreatePost";
 import ProfilePage from "./components/ProfilePage";
 import Footer from "./layout/Footer";
+import UpdatePost from "./components/UpdatePost";
 
 const queryClient = new QueryClient();
 
 function App() {
-  const { isLogin, loggedInEmail, setIsLogin, setLoggedInEmail } = useStore();
+  const { isLogin, loggedInEmail, setIsLogin, setLoggedInEmail, selectedPost } =
+    useStore();
 
   useEffect(() => {
     const email = localStorage.getItem("loggedInEmail");
@@ -138,6 +140,7 @@ function App() {
                     <div>
                       {currentComponent === "postList" && <PostList />}
                       {currentComponent === "createPost" && <CreatePost />}
+                      {currentComponent === "updatePost" && <UpdatePost />}
                     </div>
                   }
                 />
@@ -151,8 +154,7 @@ function App() {
                   }
                 />
               </Routes>
-
-              <PostModal />
+              <PostModal post={selectedPost} />
             </main>
 
             {/* Footer */}

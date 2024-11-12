@@ -17,6 +17,7 @@ function PostList() {
     setFilterLikedPosts, // 좋아요한 글 필터링 여부 설정 함수
     isLogin, // 로그인 상태 여부
     setComponent, // 현재 활성 컴포넌트를 변경하는 함수
+    fetchPosts, // 게시물 데이터 가져오는 함수 (상태 관리)
   } = useStore();
 
   // 검색어 상태 관리
@@ -33,36 +34,6 @@ function PostList() {
       // 로그인 상태이면 게시물 작성 컴포넌트로 전환
       setComponent("createPost");
     }
-  };
-
-  // 게시물 데이터 가져오는 함수 (임의의 데이터 생성)
-  const fetchPosts = async ({ pageParam = 0 }) => {
-    const sampleData = {
-      posts: [
-        {
-          id: pageParam * 3 + 1,
-          userId: "test@example.com",
-          title: `고기감자조림 ${pageParam * 3 + 1}`,
-          image: "https://via.placeholder.com/150",
-          recipeDescription: "고기와 감자가 잘 어울리는 메뉴.",
-          ingredients: "고기, 감자",
-          instructions: "1.고기를 준비합니다, 2.감자를 조립니다.",
-          likedByUser: pageParam % 2 === 0,
-        },
-        {
-          id: pageParam * 3 + 2,
-          userId: "test2@example.com",
-          title: `게시물 ${pageParam * 3 + 2}`,
-          image: "https://via.placeholder.com/150",
-          recipeDescription: "고기와 감자가 잘 어울리는 메뉴.",
-          ingredients: "고기, 감자",
-          instructions: "이것은 임의의 설명입니다.",
-          likedByUser: pageParam % 2 === 0,
-        },
-      ],
-      nextPage: pageParam < 10 ? pageParam + 1 : undefined,
-    };
-    return sampleData;
   };
 
   // 무한 스크롤을 위한 useInfiniteQuery 훅 사용
