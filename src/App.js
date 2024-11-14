@@ -1,41 +1,54 @@
-import React, { useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import MainPage from "./components/MainPage";
-import SearchPage from "./components/SearchPage";
-import logo from "./assets/svg/logo.jpg";
-import LoginPage from "./components/LoginPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import PostList from "./pages/PostList";
-import PostModal from "./components/PostModal";
-import useStore from "./store/useStore";
+import React, { useEffect } from "react";
+import { Link, Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import logo from "./assets/svg/logo.jpg";
 import CreatePost from "./components/CreatePost";
+import LoginPage from "./components/LoginPage";
+import MainPage from "./components/MainPage";
+import PostModal from "./components/PostModal";
 import ProfilePage from "./components/ProfilePage";
-import Footer from "./layout/Footer";
+import SearchPage from "./components/SearchPage";
 import UpdatePost from "./components/UpdatePost";
+import Footer from "./layout/Footer";
+import PostList from "./pages/PostList";
+import useStore from "./store/useStore";
 
 const queryClient = new QueryClient();
 
 function App() {
-  const { isLogin, loggedInEmail, setIsLogin, setLoggedInEmail, selectedPost } =
+  const { isLogin, loggedInEmail, nickname, setIsLogin, setLoggedInEmail, selectedPost, setNickname } =
     useStore();
 
   useEffect(() => {
     const email = localStorage.getItem("loggedInEmail");
-    if (email) {
+    const nickname = localStorage.getItem("nickname");
+    if (email && nickname) {
       setLoggedInEmail(email);
+      setNickname(nickname);
       setIsLogin(true); // 로그인 상태로 설정
     }
-  }, [setLoggedInEmail, setIsLogin]);
+  }, [setLoggedInEmail, setIsLogin, setNickname]);
 
-  const handleLogin = (email) => {
+  const handleLogin = (email, nickname) => {
     setLoggedInEmail(email);
+    setNickname(nickname);
     setIsLogin(true);
     localStorage.setItem("loggedInEmail", email);
+    localStorage.setItem("nickname", nickname);
+    window.location.href = "/";
     window.location.href = "/";
   };
 
   const handleLogout = () => {
     setLoggedInEmail("");
+    const handleLogout = () => {
+      setLoggedInEmail("");
+      setNickname("");
+      setIsLogin(false);
+      localStorage.removeItem("loggedInEmail");
+      localStorage.removeItem("nickname");
+      window.location.href = "/";
+    };
     setIsLogin(false);
     localStorage.removeItem("loggedInEmail");
     window.location.href = "/";
@@ -82,7 +95,7 @@ function App() {
                       to="/profile"
                       className="mr-4 text-orange-500 hover:text-blue-500"
                     >
-                      {loggedInEmail}
+                      {nickname}
                     </Link>
                     <button
                       onClick={handleLogout}

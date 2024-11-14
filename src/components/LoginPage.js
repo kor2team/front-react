@@ -11,7 +11,7 @@ function LoginPage({ onLogin }) {
   const handleLogin = (e) => {
     e.preventDefault();
     if (email && password) {
-      onLogin(email);
+      onLogin(email, nickname);
     } else {
       alert("이메일과 비밀번호를 입력하세요.");
     }

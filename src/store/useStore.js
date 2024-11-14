@@ -16,9 +16,10 @@ const useStore = create((set) => ({
   filterUserPosts: false,
   filterLikedPosts: false,
 
-  // 로그인 상태와 로그인된 이메일 저장
+  // 로그인 상태와 로그인된 이메일, 닉네임 저장
   isLogin: false,
   loggedInEmail: "",
+  nickname: "",
 
   // 오류 메시지 상태
   errorMessage: "",
@@ -69,7 +70,7 @@ const useStore = create((set) => ({
   comments: {},
 
   // 댓글 추가 함수 - 특정 게시물 ID에 새로운 댓글 추가
-  addComment: (postId, commentText, userId) =>
+  addComment: (postId, commentText, userId, nickname) =>
     set((state) => {
       // 해당 게시물 ID의 댓글 배열 가져오기 (없으면 빈 배열 생성)
       const postComments = state.comments[postId] || [];
@@ -78,6 +79,7 @@ const useStore = create((set) => ({
         id: postComments.length + 1, // 고유 ID 설정
         text: commentText, // 댓글 내용
         userId: userId, // 댓글 작성자 ID (현재 로그인된 사용자)
+        nickname: nickname, // 사용자의 닉네임
       };
       return {
         comments: {
@@ -139,6 +141,7 @@ const useStore = create((set) => ({
     set({ filterLikedPosts: isLikedPosts }), // 좋아요한 글 필터링 설정
   setIsLogin: (status) => set({ isLogin: status }), // 로그인 상태 설정
   setLoggedInEmail: (email) => set({ loggedInEmail: email }), // 로그인 이메일 설정
+  setNickname: (nickname) => set({ nickname }), // 닉네임 설정 함수
 }));
 
 export default useStore;

@@ -1,5 +1,5 @@
-import useStore from "../store/useStore";
 import { useState } from "react";
+import useStore from "../store/useStore";
 
 function PostModal({ post }) {
   // Zustand 상태 및 액션 가져오기
@@ -9,6 +9,7 @@ function PostModal({ post }) {
     deletePost, // 게시물을 삭제하는 함수
     selectedPost, // 선택된 게시물 정보
     loggedInEmail, // 로그인된 사용자의 이메일
+    nickname, // 로그인된 사용자의 닉네임
     comments, // 댓글 상태
     addComment, // 댓글 추가 함수
     editComment, // 댓글 수정 함수
@@ -32,7 +33,7 @@ function PostModal({ post }) {
     if (newComment.trim() === "") return; // 빈 댓글은 추가하지 않음
 
     // 전역 상태의 addComment 호출하여 댓글 추가
-    addComment(selectedPost.id, newComment, loggedInEmail);
+    addComment(selectedPost.id, newComment, loggedInEmail, nickname);
     setNewComment(""); // 입력 필드 초기화
   };
 
@@ -51,13 +52,9 @@ function PostModal({ post }) {
 
   // 좋아요 버튼 클릭 핸들러
   const handleLike = () => {
-    // 좋아요를 누르면 상태 변경
-    if (likedByUser) {
-      setNewLike(newLike - 1); // 좋아요 취소: 수 감소
-      setLikedByUser(false); // 좋아요 취소 상태로 변경
-    } else {
-      setNewLike(newLike + 1); // 좋아요 추가: 수 증가
-      setLikedByUser(true); // 좋아요 상태로 변경
+    if (!likedByUser) {
+      setNewLike(newLike + 1); // 좋아요 수 증가
+      setLikedByUser(true); // 좋아요 버튼이 눌렸음을 상태로 저장
     }
   };
 
@@ -172,7 +169,10 @@ function PostModal({ post }) {
                     key={comment.id}
                     className="text-gray-700 flex items-center justify-between"
                   >
+                    <div>
+                    <span className="font-bold mr-2">{comment.nickname}</span> {/* 닉네임 표시 */}
                     <span>{comment.text}</span>
+                    </div>
                     {comment.userId === loggedInEmail && (
                       <div className="flex space-x-2">
                         <button
